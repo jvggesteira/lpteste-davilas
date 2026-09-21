@@ -1,0 +1,531 @@
+<!doctype html>
+<!-- build: LOOP-FIX-v2 -->
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="D'avila's Concept — odontologia personalizada em São Paulo (Liberdade) e Rio Branco (AC). Estética, alinhadores, implantodontia e periodontia com planejamento digital do sorriso.">
+<meta property="og:title" content="D'avila's Concept — Odontologia Personalizada">
+<meta property="og:description" content="Você vê o seu sorriso pronto antes de começar o tratamento.">
+<meta property="og:image" content="media/hero-poster.webp">
+<style>html{-webkit-text-size-adjust:100%}body{margin:0}img,video{max-width:100%}[hidden]{display:none!important}</style>
+<title>D'avila's Concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Italianno&display=swap">
+
+<style>
+:root{
+  --ink:#14100D;
+  --ink-2:#1E1813;
+  --ink-3:#2C241D;
+  --bone:#EFE9E0;
+  --sand:#E3DACD;
+  --paper:#FBF8F4;
+  --terra:#A85818;
+  --terra-2:#C9803F;
+  --muted:#7E7164;
+  --muted-dark:#A79689;
+  --line:rgba(20,16,13,.14);
+  --line-dark:rgba(239,233,224,.16);
+  --display:"Bodoni Moda",Georgia,"Times New Roman",serif;
+  --text:"Spectral",Georgia,"Times New Roman",serif;
+  --script:"Italianno","Bodoni Moda",cursive;
+  --gut:clamp(20px,5vw,72px);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--text);font-size:17px;line-height:1.66;font-weight:300;
+  -webkit-font-smoothing:antialiased;
+}
+img{display:block;max-width:100%}
+a{color:inherit}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:var(--gut)}
+.eyebrow{
+  font-family:var(--text);font-size:12px;letter-spacing:.26em;text-transform:uppercase;
+  font-weight:500;color:var(--terra);margin:0 0 18px;
+}
+.eyebrow.on-dark{color:var(--terra-2)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0}
+h2{font-size:clamp(30px,4.4vw,50px);line-height:1.1;letter-spacing:-.01em}
+h3{font-size:21px;line-height:1.28}
+p{margin:0}
+.lede{font-size:clamp(17px,1.6vw,19.5px);color:var(--muted);max-width:60ch;font-weight:300}
+.lede.on-dark{color:var(--muted-dark)}
+
+.mark{display:flex;flex-direction:column;line-height:1;text-decoration:none}
+.mark b{font-family:var(--script);font-weight:400;font-size:36px;letter-spacing:.01em}
+.mark span{font-size:9px;letter-spacing:.34em;text-transform:uppercase;color:var(--muted-dark);margin-top:3px;font-weight:400}
+
+.nav{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:40;
+  background:rgba(20,16,13,.95);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line-dark);color:var(--bone);
+}
+.nav .wrap{display:flex;align-items:center;gap:28px;height:78px}
+.nav-links{display:flex;gap:28px;margin-left:auto;font-size:15px}
+.nav-links a{text-decoration:none;color:rgba(239,233,224,.8);transition:color .2s}
+.nav-links a:hover{color:var(--bone)}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:2px;
+  font-family:var(--text);font-size:13px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;text-decoration:none;
+  background:var(--terra);color:#fff;border:1px solid var(--terra);
+  transition:background .22s,border-color .22s;white-space:nowrap;
+}
+.btn:hover{background:#8E4712;border-color:#8E4712}
+.btn-ghost{background:transparent;color:var(--bone);border-color:var(--line-dark)}
+.btn-ghost:hover{background:rgba(239,233,224,.08);border-color:rgba(239,233,224,.45)}
+.nav .btn{padding:11px 20px}
+
+/* hero */
+.hero{background:var(--ink);color:var(--bone)}
+.hero .wrap{padding-block:clamp(48px,6.5vw,86px) clamp(40px,5vw,64px)}
+.hero-copy{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,4vw,64px);align-items:end}
+.hero h1{font-size:clamp(38px,6.1vw,74px);line-height:1.04;letter-spacing:-.022em;color:var(--bone);max-width:15ch}
+.hero h1 em{font-style:italic;color:var(--terra-2)}
+.hero .lede{max-width:44ch}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+
+/* faixa de vídeo */
+.hero-fig{margin:clamp(32px,4.5vw,56px) 0 0;position:relative;overflow:hidden;background:#0B0907}
+.hero-fig video{width:100%;display:block;aspect-ratio:1440/696;object-fit:cover}
+.hero-fig .split{
+  position:absolute;top:0;bottom:0;left:50%;width:1px;
+  background:rgba(239,233,224,.5);pointer-events:none;
+}
+.vtag{
+  position:absolute;top:16px;padding:7px 14px;font-size:10.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--bone);background:rgba(20,16,13,.62);
+  backdrop-filter:blur(4px);pointer-events:none;
+}
+.vtag.l{left:16px}
+.vtag.r{right:16px;background:rgba(168,88,24,.9)}
+.hero-fig figcaption{
+  position:absolute;left:0;right:0;bottom:0;padding:34px 18px 14px;
+  background:linear-gradient(transparent,rgba(20,16,13,.92));
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(239,233,224,.78);
+}
+.trust{border-top:1px solid var(--line-dark);background:var(--ink)}
+.trust .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+.trust div{padding:22px 24px 22px 0;border-right:1px solid var(--line-dark)}
+.trust div:last-child{border-right:0}
+.trust dt{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-dark);margin-bottom:6px}
+.trust dd{margin:0;font-family:var(--display);font-size:18px;color:var(--bone);line-height:1.3}
+
+section{padding-block:clamp(56px,8vw,104px)}
+.sec-head{max-width:66ch;margin-bottom:clamp(32px,4vw,54px)}
+.sec-head p{margin-top:16px}
+
+/* avatar / diferencial */
+.diff{background:var(--bone)}
+.diff .wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,68px);align-items:center}
+.diff img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.diff ul{margin:28px 0 0;padding:0;display:grid;gap:13px}
+.diff li{list-style:none;padding-left:24px;position:relative;font-size:16.5px;color:var(--muted)}
+.diff li::before{content:"";position:absolute;left:0;top:13px;width:11px;height:1px;background:var(--terra)}
+
+/* especialidades */
+.spec{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(14px,2vw,26px)}
+.spec article{display:flex;flex-direction:column;gap:16px}
+.spec img{width:100%;aspect-ratio:3/4;object-fit:cover}
+.spec .tag{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--terra);padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.spec h3{font-size:20px;margin-bottom:8px}
+.spec p{font-size:15.5px;color:var(--muted);line-height:1.6}
+
+/* metodo */
+.method{background:var(--ink);color:var(--bone)}
+.method h2{color:var(--bone)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line-dark);margin:0;padding:0}
+.steps li{list-style:none;padding:30px 26px 30px 0;border-right:1px solid var(--line-dark)}
+.steps li:last-child{border-right:0}
+.steps li:not(:first-child){padding-left:26px}
+.steps .n{font-family:var(--display);font-size:13px;color:var(--terra-2);display:block;margin-bottom:14px;letter-spacing:.16em;text-transform:uppercase}
+.steps h3{font-size:20px;color:var(--bone);margin-bottom:10px}
+.steps p{font-size:15.5px;color:var(--muted-dark);line-height:1.6}
+
+/* autoridade */
+.auth{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,5vw,64px);align-items:center}
+.auth img{width:100%;aspect-ratio:3/4;object-fit:cover}
+.auth .sig{font-family:var(--script);font-size:46px;line-height:1;color:var(--terra);margin-top:26px}
+.auth ul{margin:26px 0 0;padding:0;display:grid;gap:12px}
+.auth li{list-style:none;padding-left:24px;position:relative;font-size:16.5px;color:var(--muted)}
+.auth li::before{content:"";position:absolute;left:0;top:13px;width:11px;height:1px;background:var(--terra)}
+
+/* mosaico */
+.mosaic{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:clamp(8px,1.2vw,16px)}
+.mosaic figure{margin:0;position:relative;min-height:0}
+.mosaic img{width:100%;height:100%;object-fit:cover;aspect-ratio:1/1}
+.mosaic .tall{grid-row:span 2}
+.mosaic .tall img{aspect-ratio:1/2.09}
+.mosaic figcaption{
+  position:absolute;left:0;right:0;bottom:0;padding:26px 14px 11px;
+  background:linear-gradient(transparent,rgba(20,16,13,.82));
+  color:rgba(255,255,255,.9);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+}
+.note{font-size:13.5px;color:var(--muted);margin-top:20px;max-width:72ch;line-height:1.6}
+
+/* unidades */
+.units{background:var(--sand)}
+.unit-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2.4vw,28px)}
+.unit{background:var(--paper);border:1px solid var(--line);padding:clamp(24px,3vw,40px);display:flex;flex-direction:column}
+.unit .uf{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--terra);margin-bottom:10px}
+.unit .city{font-family:var(--display);font-size:clamp(26px,3vw,34px);line-height:1.1}
+.unit address{font-style:normal;font-size:16.5px;color:var(--muted);margin-top:14px;line-height:1.6}
+.unit .u-link{
+  margin-top:auto;padding-top:26px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;
+  text-decoration:none;color:var(--ink);border-bottom:1px solid var(--terra);align-self:flex-start;
+  padding-bottom:3px;transition:color .2s;font-weight:500;
+}
+.unit .u-link:hover{color:var(--terra)}
+
+/* faq */
+.faq{border-top:1px solid var(--line);max-width:880px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;padding:22px 36px 22px 0;position:relative;font-family:var(--display);font-size:20px;line-height:1.35}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:19px;color:var(--terra);font-size:22px;font-weight:400;font-family:var(--text)}
+.faq details[open] summary::after{content:"–"}
+.faq .a{padding:0 44px 24px 0;font-size:16.5px;color:var(--muted)}
+
+.cta-final{background:var(--ink);color:var(--bone);text-align:center}
+.cta-final h2{color:var(--bone);max-width:20ch;margin:0 auto}
+.cta-final .lede{margin:22px auto 0;text-align:center}
+.cta-final .btn{margin-top:34px}
+
+footer{background:var(--ink-2);color:var(--muted-dark);padding-block:46px;font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end;justify-content:space-between}
+footer .legal{max-width:54ch;line-height:1.65}
+
+.proto{background:var(--terra);color:#fff;font-size:12px;letter-spacing:.16em;text-transform:uppercase;text-align:center;padding:9px 16px;font-weight:500}
+
+@media (max-width:980px){
+  .hero-copy{grid-template-columns:1fr;gap:22px;align-items:start}
+  .hero h1{max-width:none}
+  .hero .lede{max-width:56ch}
+  .spec{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .steps li:nth-child(2n){border-right:0}
+  .steps li:nth-child(n+3){border-top:1px solid var(--line-dark)}
+  .auth,.diff .wrap{grid-template-columns:1fr}
+  .auth img,.diff img{aspect-ratio:4/3}
+  .diff img{order:-1}
+  .trust .wrap{grid-template-columns:repeat(2,1fr)}
+  .trust div:nth-child(2n){border-right:0}
+  .trust div:nth-child(n+3){border-top:1px solid var(--line-dark)}
+  .unit-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+}
+@media (max-width:640px){
+  .mosaic{grid-template-columns:repeat(2,1fr)}
+  .mosaic .tall{grid-row:span 1}
+  .mosaic .tall img{aspect-ratio:1/1}
+  .steps{grid-template-columns:1fr}
+  .steps li{border-right:0;padding-left:0!important;border-top:1px solid var(--line-dark)}
+  .spec p{font-size:14.5px}
+  .hero-fig video{aspect-ratio:3/2}
+  .vtag{top:12px;font-size:9.5px;letter-spacing:.16em;padding:6px 10px}
+  .vtag.l{left:10px}
+  .vtag.r{right:10px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .rise{animation:rise .8s cubic-bezier(.2,.7,.25,1) both}
+  .rise.d2{animation-delay:.1s}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+}
+:focus-visible{outline:2px solid var(--terra-2);outline-offset:3px}
+</style>
+
+<div class="proto">Protótipo de apresentação · GM Assessoria Digital · conteúdo sujeito a validação</div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="mark" href="#topo"><b>D'avila's Concept</b><span>Odontologia Personalizada</span></a>
+    <nav class="nav-links">
+      <a href="#avatar">O avatar</a>
+      <a href="#especialidades">Especialidades</a>
+      <a href="#metodo">O método</a>
+      <a href="#unidades">Unidades</a>
+    </nav>
+    <a class="btn" href="https://wa.me/5568992257126" target="_blank" rel="noopener">Agendar avaliação</a>
+  </div>
+</header>
+
+<section class="hero" id="topo">
+  <div class="wrap">
+    <div class="hero-copy rise">
+      <div>
+        <p class="eyebrow on-dark">São Paulo · Liberdade — e Rio Branco, AC</p>
+        <h1>Você vê o seu sorriso pronto <em>antes</em> de começar o tratamento.</h1>
+      </div>
+      <div>
+        <p class="lede on-dark">Na D'avila's Concept, cada caso passa por um planejamento digital que cria o avatar do seu sorriso. Você decide com a imagem na tela — não com uma promessa.</p>
+        <div class="hero-cta">
+          <a class="btn" href="https://wa.me/5568992257126" target="_blank" rel="noopener">Agendar avaliação</a>
+          <a class="btn btn-ghost" href="#avatar">Entenda o avatar</a>
+        </div>
+      </div>
+    </div>
+    <figure class="hero-fig rise d2">
+      <video id="heroVideo" autoplay muted loop playsinline webkit-playsinline preload="auto"
+             poster="media/hero-poster.webp"
+             aria-label="Sorriso atual à esquerda e simulação do avatar do sorriso à direita">
+        <source src="media/hero.mp4" type="video/mp4">
+        <img src="media/hero-poster.webp" alt="Sorriso atual à esquerda e simulação do avatar do sorriso à direita">
+      </video>
+      <span class="split" aria-hidden="true"></span>
+      <span class="vtag l">Sorriso hoje</span>
+      <span class="vtag r">Avatar — simulação</span>
+      <figcaption>Simulação do planejamento digital · não representa garantia de resultado</figcaption>
+    </figure>
+  </div>
+</section>
+<div class="trust">
+  <dl class="wrap">
+    <div><dt>Registro</dt><dd>EPAO 0235</dd></div>
+    <div><dt>São Paulo</dt><dd>Liberdade, a pé do metrô</dd></div>
+    <div><dt>Planejamento</dt><dd>Avatar digital do sorriso</dd></div>
+    <div><dt>Atendimento</dt><dd>Particular — sem convênio</dd></div>
+  </dl>
+</div>
+
+<section class="diff" id="avatar">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">O diferencial</p>
+      <h2>O avatar do sorriso: o seu caso em 3D, antes de qualquer procedimento.</h2>
+      <p class="lede" style="margin-top:18px">A boca é escaneada e o sorriso é reconstruído digitalmente. Na mesma tela você vê o ponto de partida, o resultado projetado e o caminho entre os dois — com a sequência de etapas e o tempo de cada uma.</p>
+      <ul>
+        <li>Você aprova o formato antes de existir desgaste ou cerâmica</li>
+        <li>O escopo e a ordem das etapas ficam definidos por escrito</li>
+        <li>Movimento dentário simulado etapa a etapa nos casos com alinhadores</li>
+        <li>Nada começa na primeira consulta — você decide fora do consultório</li>
+      </ul>
+    </div>
+    <img src="img/clinic.webp" alt="Avatar do sorriso apresentado em tela na clínica">
+  </div>
+</section>
+
+<section id="especialidades">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Especialidades</p>
+      <h2>Um sorriso só se sustenta quando as quatro áreas trabalham no mesmo plano.</h2>
+      <p class="lede">Gengiva inflamada compromete a cerâmica. Dente ausente sobrecarrega os vizinhos. Mordida desalinhada lasca o trabalho novo. Por isso o diagnóstico avalia as quatro frentes juntas e define, caso a caso, a ordem em que elas entram.</p>
+    </div>
+    <div class="spec">
+      <article>
+        <img src="img/perio.webp" alt="Detalhe de gengiva e dentes saudáveis">
+        <div>
+          <div class="tag">A base</div>
+          <h3>Periodontia</h3>
+          <p>Saúde e contorno da gengiva. É o que define até onde a estética pode chegar — e vem antes dela.</p>
+        </div>
+      </article>
+      <article>
+        <img src="img/aligner.webp" alt="Alinhador ortodôntico transparente">
+        <div>
+          <div class="tag">A posição</div>
+          <h3>Alinhadores invisíveis</h3>
+          <p>Dentes na posição certa exigem menos desgaste depois. Muitas vezes é o caminho mais conservador para o resultado estético.</p>
+        </div>
+      </article>
+      <article>
+        <img src="img/implant.webp" alt="Prótese sobre implantes">
+        <div>
+          <div class="tag">A estrutura</div>
+          <h3>Implantodontia</h3>
+          <p>Reposição de dentes ausentes, do elemento unitário à prótese total. Sem estrutura, não há estética duradoura.</p>
+        </div>
+      </article>
+      <article>
+        <img src="img/ceramic.webp" alt="Coroa de cerâmica em detalhe macro">
+        <div>
+          <div class="tag">O acabamento</div>
+          <h3>Estética &amp; Reabilitação</h3>
+          <p>Lentes, facetas e coroas em cerâmica — a última etapa, executada sobre uma base já resolvida.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="method" id="metodo">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow on-dark">O método</p>
+      <h2>Quatro etapas, nesta ordem.</h2>
+      <p class="lede on-dark">Nenhuma etapa começa antes de a anterior estar fechada. É o que evita retrabalho, cerâmica que lasca e orçamento que cresce no meio do caminho.</p>
+    </div>
+    <ol class="steps">
+      <li>
+        <span class="n">Etapa 01</span>
+        <h3>Diagnóstico</h3>
+        <p>Exame clínico, fotografias, radiografias e leitura da mordida. Você entende o que existe hoje antes de ouvir qualquer proposta.</p>
+      </li>
+      <li>
+        <span class="n">Etapa 02</span>
+        <h3>Avatar do sorriso</h3>
+        <p>Escaneamento e planejamento digital. O resultado projetado é apresentado a você, com escopo, sequência e investimento definidos.</p>
+      </li>
+      <li>
+        <span class="n">Etapa 03</span>
+        <h3>Execução</h3>
+        <p>As etapas seguem a ordem do plano. Nos casos estéticos, prova na própria boca antes de qualquer peça definitiva.</p>
+      </li>
+      <li>
+        <span class="n">Etapa 04</span>
+        <h3>Manutenção</h3>
+        <p>Controles periódicos e registro de acompanhamento. Alto padrão é o que continua bom depois do segundo ano.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section id="clinica">
+  <div class="wrap auth">
+    <img src="img/clinic2.webp" alt="Dra. Tanira D'avila na clínica, durante apresentação de planejamento digital">
+    <div>
+      <p class="eyebrow">Quem conduz</p>
+      <h2>Dra. Tanira D'avila</h2>
+      <p class="lede" style="margin-top:18px">Cirurgiã-dentista responsável pela D'avila's Concept. Conduz pessoalmente o diagnóstico, o planejamento digital e a execução de cada caso nas duas unidades.</p>
+      <ul>
+        <li>Atuação integrada em periodontia, alinhadores, implantodontia e estética</li>
+        <li>Planejamento com avatar digital em todos os casos reabilitadores</li>
+        <li>A mesma profissional do diagnóstico à manutenção</li>
+        <li>Agenda reduzida por dia, para acompanhar caso a caso</li>
+      </ul>
+      <p class="sig">D'avila's Concept</p>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bone)">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Registros da clínica</p>
+      <h2>O detalhe é o que separa um dente bonito de um sorriso que passa despercebido.</h2>
+    </div>
+    <div class="mosaic">
+      <figure class="tall"><img src="img/ven1.webp" alt="Sorriso reabilitado em cerâmica"><figcaption>Reabilitação estética</figcaption></figure>
+      <figure><img src="img/bw.webp" alt="Detalhe de textura e translucidez da cerâmica"><figcaption>Textura</figcaption></figure>
+      <figure><img src="img/ceramic2.webp" alt="Coroa cerâmica sobre pilar"><figcaption>Cerâmica sob medida</figcaption></figure>
+      <figure><img src="img/ven3.webp" alt="Sorriso finalizado em cerâmica"><figcaption>Translucidez</figcaption></figure>
+      <figure><img src="img/clinic.webp" alt="Planejamento digital em tela na clínica"><figcaption>Avatar em tela</figcaption></figure>
+      <figure><img src="img/aligner.webp" alt="Alinhador transparente"><figcaption>Alinhadores</figcaption></figure>
+      <figure><img src="img/smile2.webp" alt="Paciente sorrindo"><figcaption>Caso concluído</figcaption></figure>
+    </div>
+    <p class="note">Registros de casos reais conduzidos na clínica. Cada caso tem condições clínicas próprias — o resultado possível é definido em avaliação individual e não pode ser garantido previamente.</p>
+  </div>
+</section>
+
+<section class="units" id="unidades">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Unidades</p>
+      <h2>Duas clínicas, o mesmo padrão de condução.</h2>
+    </div>
+    <div class="unit-grid">
+      <div class="unit">
+        <p class="uf">São Paulo — SP</p>
+        <p class="city">Unidade Liberdade</p>
+        <address>Rua Galvão Bueno, 412<br>Liberdade · São Paulo · SP<br>A poucos minutos a pé do metrô</address>
+        <a class="u-link" href="https://wa.me/5568992257126" target="_blank" rel="noopener">Agendar em São Paulo</a>
+      </div>
+      <div class="unit">
+        <p class="uf">Rio Branco — AC</p>
+        <p class="city">Unidade Cerâmica</p>
+        <address>Travessa Rio Branco, 684 — sala 02<br>Bairro Cerâmica · Rio Branco · AC</address>
+        <a class="u-link" href="https://wa.me/5568992257126" target="_blank" rel="noopener">Agendar em Rio Branco</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Antes de agendar</p>
+      <h2>O que as pessoas costumam perguntar.</h2>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>Como funciona a primeira consulta?</summary>
+        <div class="a">É uma avaliação completa: exame clínico, fotografias e leitura das radiografias. Você sai dela sabendo o que existe hoje e quais caminhos são possíveis — nenhum procedimento é iniciado nessa mesma consulta.</div>
+      </details>
+      <details>
+        <summary>Consigo ver o resultado antes de começar?</summary>
+        <div class="a">Sim — é o ponto central do nosso método. O sorriso é escaneado e reconstruído digitalmente no avatar, apresentado a você antes de qualquer desgaste. Nas etapas estéticas ainda existe a prova na própria boca.</div>
+      </details>
+      <details>
+        <summary>A clínica atende convênio?</summary>
+        <div class="a">Não. O atendimento é exclusivamente particular, com agenda reduzida por dia — é o que permite conduzir cada caso pessoalmente, do diagnóstico à manutenção.</div>
+      </details>
+      <details>
+        <summary>Quanto tempo leva um tratamento completo?</summary>
+        <div class="a">Depende do escopo. Casos estéticos costumam ser concluídos em semanas; reabilitações com implantes ou alinhadores seguem um cronograma mais longo, definido e informado já no planejamento.</div>
+      </details>
+      <details>
+        <summary>Atendem nas duas cidades?</summary>
+        <div class="a">Sim — São Paulo (Liberdade) e Rio Branco (AC). O agendamento é feito pelo mesmo canal e a unidade é definida no contato.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="cta-final">
+  <div class="wrap">
+    <p class="eyebrow on-dark">Próximo passo</p>
+    <h2>Comece pela avaliação.</h2>
+    <p class="lede on-dark">Agende pelo WhatsApp e escolha a unidade. Respondemos em horário comercial.</p>
+    <a class="btn" href="https://wa.me/5568992257126" target="_blank" rel="noopener">Falar com a clínica</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <a class="mark" href="#topo" style="color:var(--bone)"><b>D'avila's Concept</b><span>Odontologia Personalizada</span></a>
+    <p class="legal">EPAO 0235 · São Paulo (SP) e Rio Branco (AC) · Atendimento particular<br>
+    As informações desta página têm caráter informativo e não substituem a avaliação clínica presencial.<br>
+    <a href="https://wa.me/5568992257126" target="_blank" rel="noopener">WhatsApp (68) 99225-7126</a> · <a href="https://www.instagram.com/davilasconcept/" target="_blank" rel="noopener">@davilasconcept</a></p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var v = document.getElementById('heroVideo');
+  if (!v) return;
+
+  // O loop do topo é conteúdo, não enfeite: toca mesmo com "reduzir movimento"
+  // ligado no sistema. As animações decorativas da página continuam respeitando
+  // a preferência, via CSS.
+  v.muted = true;
+  v.defaultMuted = true;
+  v.setAttribute('muted', '');
+  v.setAttribute('autoplay', '');
+
+  var armed = false;
+
+  function arm() {
+    if (armed) return;
+    armed = true;
+    ['pointerdown', 'touchstart', 'keydown', 'scroll'].forEach(function (evt) {
+      window.addEventListener(evt, function once() {
+        armed = false;
+        attempt();
+      }, { once: true, passive: true });
+    });
+  }
+
+  function attempt() {
+    var p;
+    try { p = v.play(); } catch (e) { arm(); return; }
+    if (p && typeof p.then === 'function') p.catch(arm);
+  }
+
+  if (v.readyState >= 2) attempt(); else v.addEventListener('loadeddata', attempt, { once: true });
+  document.addEventListener('visibilitychange', function () { if (!document.hidden && v.paused) attempt(); });
+})();
+</script>
+
+</body></html>
