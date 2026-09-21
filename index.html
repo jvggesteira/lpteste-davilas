@@ -100,9 +100,6 @@ p{margin:0}
 }
 .vtag.l{left:16px}
 .vtag.r{right:16px;background:rgba(168,88,24,.9)}
-.hero-fig img.fallback{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;
-}
 .hero-fig figcaption{
   position:absolute;left:0;right:0;bottom:0;padding:34px 18px 14px;
   background:linear-gradient(transparent,rgba(20,16,13,.92));
@@ -498,41 +495,29 @@ footer .legal{max-width:54ch;line-height:1.65}
   var v = document.getElementById('heroVideo');
   if (!v) return;
 
-  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduced) { v.removeAttribute('autoplay'); try { v.pause(); } catch (e) {} return; }
-
+  // O vídeo é o conteúdo da peça, não enfeite: toca sempre, inclusive com
+  // "reduzir movimento" ligado. As animações decorativas já respeitam a
+  // preferência pelo CSS.
   v.muted = true;
   v.defaultMuted = true;
   v.setAttribute('muted', '');
 
-  var swapped = false;
-
-  // Quando a página roda dentro de um iframe sem a permissão "autoplay"
-  // (caso da pré-visualização do Claude), play() é recusado pela política do
-  // navegador mesmo após clique. Nesse caso trocamos por um loop em WebP animado.
-  function useFallback() {
-    if (swapped) return;
-    swapped = true;
-    var img = new Image();
-    img.className = 'fallback';
-    img.alt = v.getAttribute('aria-label') || '';
-    img.decoding = 'async';
-    img.onload = function () { v.parentNode.insertBefore(img, v.nextSibling); };
-    img.src = 'media/hero-poster.webp';
-  }
-
   function attempt() {
     var p;
-    try { p = v.play(); } catch (e) { useFallback(); return; }
-    if (p && typeof p.then === 'function') p.catch(useFallback);
-    else setTimeout(function () { if (v.paused) useFallback(); }, 600);
+    try { p = v.play(); } catch (e) { return; }
+    if (p && typeof p.catch === 'function') p.catch(function () {});
   }
 
   if (v.readyState >= 2) attempt();
   else v.addEventListener('loadeddata', attempt, { once: true });
 
-  v.addEventListener('error', useFallback);
-  setTimeout(function () { if (v.paused) useFallback(); }, 2500);
+  // Se o navegador recusar o autoplay, tenta de novo no primeiro gesto.
+  ['pointerdown', 'touchstart', 'keydown'].forEach(function (evt) {
+    document.addEventListener(evt, function again() {
+      if (v.paused) attempt();
+      if (!v.paused) document.removeEventListener(evt, again);
+    }, { passive: true });
+  });
 })();
 </script>
 
