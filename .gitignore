@@ -1,2 +1,9 @@
 # fonte do hero (23 MB) - fica local, o build usa media/hero.mp4
 Video 2 LP Tanira.mp4
+
+# originais e feedback da cliente - ficam locais, o build usa img/*.webp
+IMG_*.[jJ][pP][gG]
+feedback *.jpeg
+WhatsApp Image *.jpeg
+Captura de tela *.jpg
+Photo-retouch-*.png
