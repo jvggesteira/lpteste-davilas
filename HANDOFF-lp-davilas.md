@@ -347,6 +347,18 @@ curl -s "https://lpteste-davilas.vercel.app/index.html?n=$RANDOM" | grep -c "set
 - **Existem várias cópias de `index.html`** na pasta de Downloads, de versões
   diferentes. Trabalhar sempre a partir do repositório clonado — as cópias
   `index_1.html` e `index_2.html` foram apagadas do repositório em 28/09/2026.
+- **`vercel.json` não aceita chave desconhecida.** O schema é estrito: um
+  `"$comment"` no topo derruba o build inteiro com "Deployment failed" e um
+  link genérico para a documentação. JSON não tem comentário — a explicação
+  vai no handoff, não no arquivo.
+- **A Vercel não avisa que falhou.** O site continua servindo a versão
+  anterior do cache de borda e o `Age` só cresce. Para saber o que aconteceu
+  de verdade, sem depender do painel:
+  `gh api repos/jvggesteira/lpteste-davilas/commits/<sha>/status`
+- **Existem duas equipes "GM ASSESSORIA" na Vercel**, com o mesmo nome e slugs
+  diferentes (`gm-assessoria` e `gm-assessoria-e4a1814e`). O projeto está na
+  primeira, `team_13gS4fspXWFyKQX9pUVaLwsC`, id
+  `prj_YkNylWQha2vyotsmi8Kh4VdLIUNQ`.
 - **O conector da Vercel no Claude** tem escopo apenas de leitura: retorna 403
   em `create_deployment` e `list_deployments`. Por isso o deploy precisa sair
   de um ambiente com git.
