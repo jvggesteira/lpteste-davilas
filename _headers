@@ -1,0 +1,54 @@
+# Cloudflare Pages — cabeçalhos por rota.
+# Sintaxe: um padrão de rota por bloco, cabeçalhos indentados abaixo.
+
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  Permissions-Policy: accelerometer=(), autoplay=(self), camera=(), display-capture=(), encrypted-media=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=(), xr-spatial-tracking=()
+  Content-Security-Policy: default-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com; font-src 'self'; media-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; manifest-src 'self'; upgrade-insecure-requests
+
+# style-src usa 'unsafe-inline' porque o CSS é embutido de propósito (render
+# imediato). A página é 100% estática e não tem nenhum campo de entrada, então
+# não há superfície de injeção — a CSP aqui é defesa em profundidade.
+#
+# AO LIGAR O GOOGLE ADS: a tag de conversão precisa dos domínios abaixo.
+# Acrescente-os às diretivas correspondentes na linha acima, senão a conversão
+# falha em silêncio:
+#   script-src  ... https://www.googleadservices.com https://googleads.g.doubleclick.net
+#   img-src     ... https://www.google.com https://www.google.com.br https://googleads.g.doubleclick.net
+#   connect-src ... https://www.google.com https://googleads.g.doubleclick.net
+# Não use tags "HTML personalizado" no GTM: elas injetam script inline e a CSP
+# bloqueia. Use os modelos nativos do GTM.
+
+# HTML sempre revalidado: publicação entra no ar sem esperar cache.
+/
+  Cache-Control: public, max-age=0, must-revalidate
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Nomes de arquivo estáveis e versionados pelo subset: cache longo.
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+/favicon.ico
+  Cache-Control: public, max-age=31536000, immutable
+/apple-touch-icon.png
+  Cache-Control: public, max-age=31536000, immutable
+/icon-192.png
+  Cache-Control: public, max-age=31536000, immutable
+/icon-512.png
+  Cache-Control: public, max-age=31536000, immutable
+
+# Imagens e vídeo ainda são trocados a pedido da cliente: cache curto + SWR.
+/img/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=604800
+/media/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=604800
+
+/js/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=604800

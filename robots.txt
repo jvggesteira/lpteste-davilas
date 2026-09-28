@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://davilasconcept.com.br/sitemap.xml

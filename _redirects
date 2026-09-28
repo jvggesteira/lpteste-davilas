@@ -1,0 +1,7 @@
+# Cloudflare Pages — um domínio canônico só. Tudo converge para o apex,
+# para não dividir a autoridade de SEO entre www e não-www.
+https://www.davilasconcept.com.br/*  https://davilasconcept.com.br/:splat  301!
+
+# O domínio de teste da Vercel continua no ar durante a transição; mantê-lo
+# indexável criaria conteúdo duplicado. Ele é tratado pelo canonical + noindex
+# no lado da Vercel, não aqui.

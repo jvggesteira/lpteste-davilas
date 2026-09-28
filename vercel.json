@@ -1,5 +1,12 @@
 {
+  "$comment": "A Vercel continua no ar como ambiente de teste. Com o site real em davilasconcept.com.br, o domínio .vercel.app precisa ficar fora do índice, senão vira conteúdo duplicado competindo com a produção.",
   "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
+    },
     {
       "source": "/(.*)\\.(webp|mp4|woff2)",
       "headers": [
