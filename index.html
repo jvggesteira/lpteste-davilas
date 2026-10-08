@@ -294,7 +294,12 @@ footer .legal{max-width:54ch;line-height:1.65}
   .steps{grid-template-columns:1fr}
   .steps li{border-right:0;padding-left:0!important;border-top:1px solid var(--line-dark)}
   .spec p{font-size:14.5px}
-  .hero-fig video{aspect-ratio:3/2}
+  /* O vídeo é um comparativo lado a lado. Forçar uma proporção mais alta que a
+     do arquivo faz o object-fit:cover comer as laterais, e o que some é
+     exatamente a borda dos dois rostos. No celular ele aparece inteiro.
+     Como a faixa fica baixa, a legenda sai de cima da imagem e vai para baixo
+     dela — sobreposta, cobriria os sorrisos, que são o assunto da peça. */
+  .hero-fig figcaption{position:static;background:none;padding:10px 0 0;line-height:1.55}
   .vtag{top:12px;font-size:9.5px;letter-spacing:.16em;padding:6px 10px}
   .vtag.l{left:10px}
   .vtag.r{right:10px}
