@@ -1,7 +1,11 @@
-# Cloudflare Pages — um domínio canônico só. Tudo converge para o apex,
-# para não dividir a autoridade de SEO entre www e não-www.
-https://www.davilasconcept.com.br/*  https://davilasconcept.com.br/:splat  301!
-
-# O domínio de teste da Vercel continua no ar durante a transição; mantê-lo
-# indexável criaria conteúdo duplicado. Ele é tratado pelo canonical + noindex
-# no lado da Vercel, não aqui.
+# Cloudflare Pages lê este arquivo da raiz, mas a origem de cada regra só pode
+# ser um CAMINHO (/algo), nunca uma URL com domínio. Redirect por domínio não
+# existe aqui — a tabela de suporte da Cloudflare marca "Domain-level redirects"
+# como não suportado.
+#
+# Por isso o www -> apex NÃO mora neste arquivo. Ele é uma Redirect Rule no
+# painel (Rules > Redirect Rules), que é de graça no plano Free. Ver HANDOFF §9.
+#
+# O arquivo fica aqui, vazio de regras, para o próximo que vier não recriar a
+# regra quebrada: ela não dá erro visível, simplesmente é ignorada, e o www fica
+# respondendo como site independente — conteúdo duplicado para o Google.

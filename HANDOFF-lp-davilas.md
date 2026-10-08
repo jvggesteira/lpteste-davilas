@@ -77,7 +77,9 @@ media/hero.mp4           loop do topo, 9,1s, 827 KB, H.264 1440x696 @30fps
 media/hero-poster.webp   primeiro quadro, 50 KB, 1440x696
 media/og-davilas-concept.jpg  preview de link, 1200x630
 _headers                 Cloudflare: segurança + cache (é aqui que mora a CSP)
-_redirects               Cloudflare: www -> apex
+_redirects               vazio de propósito — ver comentário dentro do arquivo
+404.html                 obrigatório: sem ele a Pages trata o site como SPA e
+                         responde a home em qualquer caminho errado, com 200
 robots.txt / sitemap.xml
 site.webmanifest, favicon.ico, apple-touch-icon.png, icon-192/512.png
 .well-known/security.txt
@@ -286,16 +288,35 @@ bloqueadas. Use os modelos nativos.
 
 ## 9. Publicar na Cloudflare
 
-1. **Pages** → Workers & Pages → Create → Pages → Connect to Git → repositório
-   `lpteste-davilas`. Sem framework, sem build command, output directory `/`.
-   O `_headers` e o `_redirects` são lidos automaticamente da raiz.
-2. **DNS no Registro.br** → trocar os nameservers pelos dois que a Cloudflare
-   informa ao adicionar o domínio. O apex depende de CNAME flattening, que só
-   existe com o DNS na Cloudflare. Propagação leva de minutos a algumas horas.
-3. **Pages → Custom domains** → adicionar `davilasconcept.com.br` e
-   `www.davilasconcept.com.br`. O `_redirects` joga o www no apex.
-4. **SSL/TLS** → modo **Full (strict)**, "Always Use HTTPS" ligado,
+1. **Cloudflare → Add a domain** → `davilasconcept.com.br`, plano Free. A
+   Cloudflare devolve **dois nameservers**; anote-os.
+2. **DNSSEC no Registro.br → DESLIGAR primeiro.** Trocar nameserver com DNSSEC
+   ativo derruba o domínio inteiro, e `.br` costuma vir com DNSSEC ligado.
+   Esperar o desligamento propagar antes do passo 3.
+3. **Registro.br → Alterar servidores DNS** → substituir pelos dois da
+   Cloudflare, copiados exatamente. Propagação: minutos a 24 h. Esperar a zona
+   ficar **Active** na Cloudflare antes de seguir.
+4. **Pages** → Workers & Pages → Create → Pages → Connect to Git → repositório
+   `lpteste-davilas`. Framework preset: nenhum. Build command: `exit 0`
+   (recomendado pela Cloudflare para projeto sem build). Root directory: vazio.
+   O `_headers` é lido automaticamente da raiz.
+5. **Pages → Custom domains** → adicionar **só o apex** `davilasconcept.com.br`.
+   A Cloudflare cria o CNAME sozinha; o apex funciona por CNAME flattening.
+   **Não** adicionar o `www` aqui: isso *serve* o site no www e cria conteúdo
+   duplicado, em vez de redirecionar.
+6. **www → apex** (receita oficial da Cloudflare para Pages):
+   - **DNS** → criar `A` / `www` / `192.0.2.1` / **Proxied**. É um IP reservado
+     para documentação; ninguém o alcança, serve só para a requisição entrar no
+     edge da Cloudflare, que é onde o redirect acontece.
+   - **Bulk Redirects** → lista com origem `www.davilasconcept.com.br`, destino
+     `https://davilasconcept.com.br`, 301, marcando *Preserve query string*,
+     *Subpath matching* e *Preserve path suffix*.
+   - Alternativa igualmente gratuita: Rules → Redirect Rules, `https://www.*`
+     → `https://${1}`, 301.
+7. **SSL/TLS** → modo **Full (strict)**, "Always Use HTTPS" ligado,
    "Automatic HTTPS Rewrites" ligado, TLS mínimo 1.2.
+   **HSTS**: ligar aqui, em Edge Certificates — a diretiva existe no `_headers`,
+   mas HSTS via `_headers` não é comportamento documentado da Pages.
 5. Conferir no ar, sem cache:
 
 ```bash
