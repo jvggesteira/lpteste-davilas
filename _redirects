@@ -6,6 +6,21 @@
 # Por isso o www -> apex NÃO mora neste arquivo. Ele é uma Redirect Rule no
 # painel (Rules > Redirect Rules), que é de graça no plano Free. Ver HANDOFF §9.
 #
-# O arquivo fica aqui, vazio de regras, para o próximo que vier não recriar a
-# regra quebrada: ela não dá erro visível, simplesmente é ignorada, e o www fica
-# respondendo como site independente — conteúdo duplicado para o Google.
+# O arquivo fica aqui para o próximo que vier não recriar a regra quebrada: ela
+# não dá erro visível, simplesmente é ignorada, e o www fica respondendo como
+# site independente — conteúdo duplicado para o Google.
+
+# ---------------------------------------------------------------------------
+# Arquivos que moram na raiz do repositório mas não são o site.
+#
+# A raiz do repo É o diretório publicado: o que estiver aqui vai ao ar. A Pages
+# exclui sozinha .git e node_modules, mas não exclui markdown nem config — o
+# HANDOFF interno ficou servido em text/markdown desde o primeiro deploy, na
+# Vercel e aqui. O .gitignore é o pior dos três: lista os padrões das fotos de
+# paciente, contando a quem ler que elas existem.
+#
+# Se um dia a lista crescer, o conserto estrutural é mover o site para uma
+# subpasta e apontar o build output para ela — aí nada de fora entra por padrão.
+/HANDOFF-lp-davilas.md   /   301
+/vercel.json             /   301
+/.gitignore              /   301
