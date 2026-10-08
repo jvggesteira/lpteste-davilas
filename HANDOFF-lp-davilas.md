@@ -245,13 +245,29 @@ ainda bloqueia. As linhas exatas estão comentadas dentro do `_headers`. E não
 use tags "HTML personalizado" no GTM — elas injetam script inline e serão
 bloqueadas. Use os modelos nativos.
 
+**Já está no ar hoje, no DNS do Registro.br** (conferido em 08/10/2026 pelo
+resolvedor público do Google):
+
+| Registro | Valor | Efeito |
+|---|---|---|
+| `DS` | `33150 13 2 9F80EA44...` | DNSSEC ativo, assinado pelo próprio Registro.br |
+| `MX` | `0 .` (null MX, RFC 7505) | o domínio declara que não recebe e-mail |
+| `TXT` | `v=spf1 -all` | nenhum servidor pode enviar em nome do domínio |
+| `TXT _dmarc` | `v=DMARC1; p=reject;` | receptor deve rejeitar o que falhar |
+
+> ⚠️ **Esses quatro registros vivem no DNS do Registro.br e somem no instante em
+> que os nameservers apontarem para a Cloudflare.** Os três de e-mail
+> (null MX, SPF, DMARC) precisam ser recriados à mão na Cloudflare — o scan
+> automático dela costuma importar os TXT, mas **erra o null MX**, que é um MX
+> com destino `.`. Sem eles, qualquer um manda e-mail se passando por
+> `@davilasconcept.com.br`, e clínica é alvo fácil de golpe com paciente.
+> O DNSSEC é caso à parte: ver §9.
+
 **Ainda falta amarrar, e é no painel, não no código:**
-- [ ] **DNSSEC** ligado no Registro.br e na Cloudflare.
 - [ ] **Registro CAA** autorizando só a Let's Encrypt (`letsencrypt.org`), para
       ninguém mais conseguir emitir certificado para o domínio.
-- [ ] **SPF, DKIM e DMARC** — mesmo sem e-mail no domínio, publique
-      `v=spf1 -all` e um `_dmarc` com `p=reject`. Sem isso qualquer um manda
-      e-mail se passando por `@davilasconcept.com.br`, e clínica é alvo fácil.
+- [ ] **Recriar null MX + SPF + DMARC na Cloudflare** logo após a migração, e
+      conferir com `dig MX`, `dig TXT` e `dig TXT _dmarc`.
 - [ ] **2FA** na conta Cloudflare, no Registro.br e no GitHub da cliente.
 - [ ] Enviar o site ao **HSTS preload list** (hstspreload.org) depois de
       algumas semanas estável — a diretiva `preload` já está no cabeçalho.
@@ -288,14 +304,38 @@ bloqueadas. Use os modelos nativos.
 
 ## 9. Publicar na Cloudflare
 
-1. **Cloudflare → Add a domain** → `davilasconcept.com.br`, plano Free. A
-   Cloudflare devolve **dois nameservers**; anote-os.
-2. **DNSSEC no Registro.br → DESLIGAR primeiro.** Trocar nameserver com DNSSEC
-   ativo derruba o domínio inteiro, e `.br` costuma vir com DNSSEC ligado.
-   Esperar o desligamento propagar antes do passo 3.
-3. **Registro.br → Alterar servidores DNS** → substituir pelos dois da
-   Cloudflare, copiados exatamente. Propagação: minutos a 24 h. Esperar a zona
-   ficar **Active** na Cloudflare antes de seguir.
+1. **Cloudflare → Add a domain** → `davilasconcept.com.br`, plano Free. Ela
+   escaneia a zona atual e devolve **dois nameservers**; anote-os.
+   **Antes de sair desta tela**, conferir se o scan trouxe os três registros de
+   e-mail (null MX `0 .`, `v=spf1 -all`, `_dmarc p=reject`). O null MX
+   normalmente **não** vem — criar à mão. Ver §7.
+2. **Registro.br → ALTERAR SERVIDORES DNS** → Servidor 1 e 2 = os dois da
+   Cloudflare, copiados exatamente. **Não tocar no botão "+ DNSSEC".**
+
+   > Sobre o DNSSEC, que é a dúvida natural aqui: o domínio **tem** DS publicado
+   > no `.br`, mas não existe — nem precisa existir — um desligamento separado.
+   > *"Não. A utilização do DNSSEC nos servidores DNS do Registro.br é
+   > obrigatória e vinculada de forma automática."* Ao sair do DNS deles, o
+   > próprio Registro.br retira a chave **antes** de publicar a nova delegação:
+   > *"A publicação dos novos servidores DNS levará ao menos 2 horas, tempo
+   > necessário para a remoção completa da chave DNSSEC utilizada no domínio."*
+   > Não há janela de DS órfão. O alerta genérico "desative o DNSSEC antes de
+   > trocar o DNS" vale para registrador onde DS e NS são editados em telas
+   > separadas — não é o caso aqui.
+   >
+   > A ressalva vale para o futuro: o formulário manda o conjunto de DS por
+   > **substituição**. Numa eventual saída da Cloudflare, com DS preenchido à
+   > mão, é preciso **limpar os campos de DS explicitamente**, senão o DS antigo
+   > continua publicado e aí sim dá SERVFAIL.
+
+3. **Esperar ~2 h** (remoção da chave) **+ ~1 h** de cache — o TTL do DS e do NS
+   no `.br` é de 3600 s. Conferir antes de seguir:
+   ```bash
+   dig DS davilasconcept.com.br @a.dns.br      # tem que voltar vazio
+   dig davilasconcept.com.br @1.1.1.1          # sem SERVFAIL
+   ```
+   O painel do Registro.br mostra "em transição" e bloqueia nova edição de NS
+   nesse intervalo. Esperar a zona ficar **Active** na Cloudflare.
 4. **Pages** → Workers & Pages → Create → Pages → Connect to Git → repositório
    `lpteste-davilas`. Framework preset: nenhum. Build command: `exit 0`
    (recomendado pela Cloudflare para projeto sem build). Root directory: vazio.
@@ -317,6 +357,19 @@ bloqueadas. Use os modelos nativos.
    "Automatic HTTPS Rewrites" ligado, TLS mínimo 1.2.
    **HSTS**: ligar aqui, em Edge Certificates — a diretiva existe no `_headers`,
    mas HSTS via `_headers` não é comportamento documentado da Pages.
+8. **Religar o DNSSEC, agora pela Cloudflare** — só depois da zona Active, porque
+   o Registro.br valida o DS contra a DNSKEY que já tem que estar no ar.
+   - Cloudflare → DNS → Settings → **Enable DNSSEC** → copiar **Key tag** e
+     **Digest** (algoritmo 13, digest SHA-256).
+   - Registro.br → ALTERAR SERVIDORES DNS → **+ DNSSEC** → preencher só
+     **Keytag** e **Digest**. O formulário pede esses dois campos e mais nada:
+     não há campo de algoritmo nem de tipo de digest, e o digest tem que ter
+     exatamente **64 caracteres** (SHA-256). Guia de terceiro que mande
+     preencher quatro campos está desatualizado.
+   - Conferir em [DScheck](https://registro.br/tecnologia/ferramentas/verificacao-de-ds/)
+     → status **DSOK**.
+   - DNSSEC é **opcional** em `.com.br`. Se preferir simplificar, dá para deixar
+     desligado em definitivo — só não deixe pela metade.
 5. Conferir no ar, sem cache:
 
 ```bash
