@@ -13,8 +13,18 @@
   var bar = document.getElementById('lgpd');
   if (!bar) return;
 
+  // Enquanto o contêiner não existir, nenhuma tag carrega e nenhum cookie é
+  // gravado — pedir consentimento para coisa nenhuma é só atrito: o aviso
+  // cobre a tela, empurra o conteúdo e esconde o botão de WhatsApp. O banner
+  // volta sozinho no dia em que a constante GTM for preenchida.
+  //
+  // A comparação é com o literal inteiro de propósito. O teste anterior era
+  // GTM.indexOf('X') > -1, que trata qualquer ID contendo a letra X como
+  // placeholder — um contêiner real "GTM-XYZ1234" nunca carregaria.
+  if (GTM === 'GTM-XXXXXXX') return;
+
   function loadTags() {
-    if (GTM.indexOf('X') > -1 || window.dataLayer) return;
+    if (window.dataLayer) return;
     window.dataLayer = [{ 'gtm.start': +new Date(), event: 'gtm.js' }];
     var s = document.createElement('script');
     s.async = true;
