@@ -19,6 +19,29 @@ Documento interno da GM Assessoria.
 O repositório é privado porque contém fotos de pacientes identificáveis.
 Manter assim.
 
+### Onde a migração parou (conferido no DNS em 12/10/2026)
+
+Os nameservers **já são da Cloudflare** (`hank` e `ingrid.ns.cloudflare.com`) e
+os três registros de e-mail sobreviveram à troca — null MX `0 .`, `v=spf1 -all`
+e `_dmarc p=reject` respondem corretamente. Seção 9, passos 1 a 3: feitos.
+
+**Mas o domínio está no escuro.** O apex não tem `A`/`AAAA`/`CNAME` nenhum e o
+`www` nem existe:
+
+```
+davilasconcept.com.br       -> sem registro de endereço (só SOA)
+www.davilasconcept.com.br   -> NXDOMAIN
+```
+
+Ou seja: quem digitar o domínio hoje não chega a lugar nenhum. O site continua
+vivo **só** em `lpteste-davilas.vercel.app`, que serve com
+`X-Robots-Tag: noindex` de propósito — então não há nada indexável no ar.
+Isso também congela o SEO: o `canonical` e o `sitemap.xml` apontam para o apex.
+
+Falta o passo 4 em diante da seção 9: criar o projeto na Pages, anexar o
+custom domain do apex, montar o redirect do `www` e religar o DNSSEC (o `DS` no
+`.br` está vazio — o Registro.br já retirou a chave, como previsto).
+
 ---
 
 ## 2. O que é o projeto
@@ -264,10 +287,18 @@ resolvedor público do Google):
 > O DNSSEC é caso à parte: ver §9.
 
 **Ainda falta amarrar, e é no painel, não no código:**
-- [ ] **Registro CAA** autorizando só a Let's Encrypt (`letsencrypt.org`), para
-      ninguém mais conseguir emitir certificado para o domínio.
-- [ ] **Recriar null MX + SPF + DMARC na Cloudflare** logo após a migração, e
-      conferir com `dig MX`, `dig TXT` e `dig TXT _dmarc`.
+- [ ] **Registro CAA** — e aqui a versão anterior deste documento estava errada:
+      mandava autorizar **só** a `letsencrypt.org`. Isso derruba a renovação do
+      certificado. A Cloudflare não usa uma CA fixa: ela escolhe entre Google
+      Trust Services, Let's Encrypt, SSL.com e Sectigo, e troca "por motivos
+      operacionais" sem avisar. CAA que só permite a Let's Encrypt faz a emissão
+      falhar no dia em que ela sortear outra. Se for criar CAA à mão, tem que
+      liberar as quatro: `pki.goog`, `letsencrypt.org`, `ssl.com`, `sectigo.com`.
+      O mais seguro é **não criar CAA nenhum** — a própria Cloudflare publica o
+      conjunto correto quando é necessário, e mantém atualizado.
+- [x] **Recriar null MX + SPF + DMARC na Cloudflare.** Sobreviveram à migração e
+      estão respondendo (conferido em 12/10/2026). Reconferir com `dig MX`,
+      `dig TXT` e `dig TXT _dmarc` se algum dia a zona for mexida.
 - [ ] **2FA** na conta Cloudflare, no Registro.br e no GitHub da cliente.
 - [ ] Enviar o site ao **HSTS preload list** (hstspreload.org) depois de
       algumas semanas estável — a diretiva `preload` já está no cabeçalho.
@@ -304,7 +335,10 @@ resolvedor público do Google):
 
 ## 9. Publicar na Cloudflare
 
-1. **Cloudflare → Add a domain** → `davilasconcept.com.br`, plano Free. Ela
+> **Passos 1 a 3 já foram feitos** (ver "Onde a migração parou", seção 1).
+> Começar do passo 4. Os passos 1–3 ficam registrados abaixo para auditoria.
+
+1. ~~**Cloudflare → Add a domain**~~ → `davilasconcept.com.br`, plano Free. Ela
    escaneia a zona atual e devolve **dois nameservers**; anote-os.
    **Antes de sair desta tela**, conferir se o scan trouxe os três registros de
    e-mail (null MX `0 .`, `v=spf1 -all`, `_dmarc p=reject`). O null MX
@@ -336,6 +370,9 @@ resolvedor público do Google):
    ```
    O painel do Registro.br mostra "em transição" e bloqueia nova edição de NS
    nesse intervalo. Esperar a zona ficar **Active** na Cloudflare.
+
+   Conferido em 12/10/2026: `DS` vazio no `.br` e a zona resolvendo pelos
+   nameservers da Cloudflare sem SERVFAIL. Esta etapa está vencida.
 4. **Pages** → Workers & Pages → Create → Pages → Connect to Git → repositório
    `lpteste-davilas`. Framework preset: nenhum. Build command: `exit 0`
    (recomendado pela Cloudflare para projeto sem build). Root directory: vazio.
