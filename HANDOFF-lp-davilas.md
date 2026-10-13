@@ -21,12 +21,13 @@ Manter assim.
 
 ### Estado da migração (conferido de fora em 13/10/2026)
 
-**O domínio está no ar na Cloudflare Pages e indexável.** Passos 1 a 6 da
-seção 9: feitos. Conferido no DNS público e por HTTP:
+**O domínio está no ar na Cloudflare Pages, indexável e com DNSSEC.** A
+seção 9 inteira foi executada em 13/10/2026. Conferido no DNS público e por HTTP:
 
 | Item | Estado |
 |---|---|
 | Nameservers | `hank` / `ingrid.ns.cloudflare.com` |
+| DNSSEC | `DS` key tag `2371`, alg. 13 — cadeia validando |
 | Apex | `A` → `104.21.15.158` / `172.67.163.26` (proxied) |
 | `www` | `301` → apex, com path e query string preservados |
 | `http://` (apex e www) | `301` → `https://` apex, em um salto |
@@ -50,9 +51,13 @@ documento dizia antes:
    os 2 anos que o `_headers` pede. Ainda qualifica para o preload list, cujo
    piso é exatamente 1 ano. Ver §9 passo 7.
 
-**O que falta:** só o passo 8 — religar o DNSSEC. O `DS` no `.br` está vazio: o
-Registro.br já retirou a chave antiga, como previsto. Depois disso, Search
-Console e as pendências da §8 que dependem da cliente.
+**A seção 9 está concluída** — passos 1 a 8, incluído o DNSSEC (key tag `2371`,
+cadeia validando em quatro resolvedores). Não há mais nada de infraestrutura
+pendente.
+
+**O que falta agora** é tudo fora do painel de DNS: Search Console e Bing,
+Google Business Profile, GTM/GA4, e as pendências da §8 que dependem de
+informação da cliente.
 
 O ambiente da Vercel (`lpteste-davilas.vercel.app`) continua no ar com
 `noindex`, e pode ser desligado quando a cliente validar a produção.
@@ -462,6 +467,32 @@ resolvedor público do Google):
      → status **DSOK**.
    - DNSSEC é **opcional** em `.com.br`. Se preferir simplificar, dá para deixar
      desligado em definitivo — só não deixe pela metade.
+
+   **Feito em 13/10/2026.** Key tag `2371`, algoritmo 13, digest type 2.
+   Resultado conferido: `DS` publicado em `a.dns.br` com digest idêntico byte a
+   byte ao da Cloudflare; `RRSIG` na zona assinada pela ZSK (key tag 34505); e
+   `1.1.1.1`, `8.8.8.8`, `9.9.9.9` e `208.67.222.222` — todos validantes —
+   respondendo normalmente. Cadeia fechada.
+
+   > **Vale a pena validar os números antes de colar no Registro.br**, porque é
+   > o único passo onde o erro derruba o domínio para quem usa resolvedor
+   > validante, e aparece como SERVFAIL, não como erro de página. O digest não é
+   > um número arbitrário: é o SHA-256 do nome em formato wire concatenado com o
+   > RDATA do DNSKEY. Dá para recalculá-lo da chave pública e comparar — se
+   > bater, nada se corrompeu no copiar/colar:
+   >
+   > ```python
+   > import base64, hashlib
+   > wire = b"".join(bytes([len(l)]) + l.encode()
+   >                 for l in "davilasconcept.com.br".split(".")) + b"\x00"
+   > rdata = (257).to_bytes(2,"big") + bytes([3, 13]) + base64.b64decode(PUBKEY)
+   > print(hashlib.sha256(wire + rdata).hexdigest().upper())   # == digest
+   > ```
+   >
+   > O key tag também é derivável do mesmo RDATA (RFC 4034, Apêndice B).
+   >
+   > Se algum dia der SERVFAIL: o conserto é **limpar os campos de DS** no mesmo
+   > formulário do Registro.br, e o domínio volta em ~1 h (TTL de 3600 s).
 5. Conferir no ar, sem cache:
 
 ```bash
