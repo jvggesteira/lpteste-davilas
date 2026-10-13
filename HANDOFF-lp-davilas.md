@@ -19,28 +19,43 @@ Documento interno da GM Assessoria.
 O repositório é privado porque contém fotos de pacientes identificáveis.
 Manter assim.
 
-### Onde a migração parou (conferido no DNS em 12/10/2026)
+### Estado da migração (conferido de fora em 13/10/2026)
 
-Os nameservers **já são da Cloudflare** (`hank` e `ingrid.ns.cloudflare.com`) e
-os três registros de e-mail sobreviveram à troca — null MX `0 .`, `v=spf1 -all`
-e `_dmarc p=reject` respondem corretamente. Seção 9, passos 1 a 3: feitos.
+**O domínio está no ar na Cloudflare Pages e indexável.** Passos 1 a 6 da
+seção 9: feitos. Conferido no DNS público e por HTTP:
 
-**Mas o domínio está no escuro.** O apex não tem `A`/`AAAA`/`CNAME` nenhum e o
-`www` nem existe:
+| Item | Estado |
+|---|---|
+| Nameservers | `hank` / `ingrid.ns.cloudflare.com` |
+| Apex | `A` → `104.21.15.158` / `172.67.163.26` (proxied) |
+| `www` | `301` → apex, com path e query string preservados |
+| `http://` (apex e www) | `301` → `https://` apex, em um salto |
+| Certificado | válido; emitido pela **Google Trust Services** no apex e pela **Let's Encrypt** no www |
+| `X-Robots-Tag: noindex` | **sumiu** no domínio próprio — a Pages só o aplica no `.pages.dev` |
+| Cabeçalhos do `_headers` | todos os 8 aplicados, inclusive HSTS e CSP |
+| Assets | vídeo, poster, OG, fontes, ícones, `security.txt`: 200 |
+| 404 | 404 de verdade, não SPA |
+| null MX / SPF / DMARC | sobreviveram à troca de NS |
 
-```
-davilasconcept.com.br       -> sem registro de endereço (só SOA)
-www.davilasconcept.com.br   -> NXDOMAIN
-```
+Duas coisas que só se descobrem com o site no ar, e que corrigem o que este
+documento dizia antes:
 
-Ou seja: quem digitar o domínio hoje não chega a lugar nenhum. O site continua
-vivo **só** em `lpteste-davilas.vercel.app`, que serve com
-`X-Robots-Tag: noindex` de propósito — então não há nada indexável no ar.
-Isso também congela o SEO: o `canonical` e o `sitemap.xml` apontam para o apex.
+1. **A Cloudflare emitiu os dois certificados desta zona com CAs diferentes, ao
+   mesmo tempo** — Google Trust Services no apex, Let's Encrypt no www. É a
+   demonstração prática de por que o CAA restrito à Let's Encrypt, que a §7
+   mandava criar, teria quebrado a ativação. Ver §7.
+2. **HSTS via `_headers` funciona** no custom domain da Pages (o cabeçalho
+   chega íntegro, com `preload`). A ressalva da §9 passo 7 — "não é
+   comportamento documentado" — segue verdadeira no papel, mas na prática está
+   servindo. Ligar também no painel é cinto-e-suspensório, não requisito.
 
-Falta o passo 4 em diante da seção 9: criar o projeto na Pages, anexar o
-custom domain do apex, montar o redirect do `www` e religar o DNSSEC (o `DS` no
-`.br` está vazio — o Registro.br já retirou a chave, como previsto).
+**O que falta:** passo 7 (modo SSL, Always Use HTTPS, TLS mínimo) e passo 8
+(religar o DNSSEC — o `DS` no `.br` está vazio, o Registro.br já retirou a
+chave antiga como previsto). Depois disso, Search Console e as pendências da §8
+que dependem da cliente.
+
+O ambiente da Vercel (`lpteste-davilas.vercel.app`) continua no ar com
+`noindex`, e pode ser desligado quando a cliente validar a produção.
 
 ---
 
@@ -373,27 +388,58 @@ resolvedor público do Google):
 
    Conferido em 12/10/2026: `DS` vazio no `.br` e a zona resolvendo pelos
    nameservers da Cloudflare sem SERVFAIL. Esta etapa está vencida.
-4. **Pages** → Workers & Pages → Create → Pages → Connect to Git → repositório
+4. ~~**Pages**~~ → Workers & Pages → Create → Pages → Connect to Git → repositório
    `lpteste-davilas`. Framework preset: nenhum. Build command: `exit 0`
    (recomendado pela Cloudflare para projeto sem build). Root directory: vazio.
-   O `_headers` é lido automaticamente da raiz.
-5. **Pages → Custom domains** → adicionar **só o apex** `davilasconcept.com.br`.
+   O `_headers` é lido automaticamente da raiz. **Feito em 13/10/2026.**
+
+   > **A Pages serve sem extensão.** `/privacidade.html` responde `308` para
+   > `/privacidade`, e `/404.html` para `/404`. Não é configuração: é o
+   > comportamento padrão dela. O `sitemap.xml` e o link do rodapé já usam a
+   > forma sem extensão, então ninguém paga o salto e o Search Console não
+   > acusa "página com redirecionamento". **Ao criar página nova, linkar sempre
+   > sem o `.html`** — senão todo link interno vira um 308 desnecessário.
+
+5. ~~**Pages → Custom domains**~~ → adicionar **só o apex** `davilasconcept.com.br`.
    A Cloudflare cria o CNAME sozinha; o apex funciona por CNAME flattening.
    **Não** adicionar o `www` aqui: isso *serve* o site no www e cria conteúdo
-   duplicado, em vez de redirecionar.
-6. **www → apex** (receita oficial da Cloudflare para Pages):
-   - **DNS** → criar `A` / `www` / `192.0.2.1` / **Proxied**. É um IP reservado
-     para documentação; ninguém o alcança, serve só para a requisição entrar no
-     edge da Cloudflare, que é onde o redirect acontece.
-   - **Bulk Redirects** → lista com origem `www.davilasconcept.com.br`, destino
-     `https://davilasconcept.com.br`, 301, marcando *Preserve query string*,
-     *Subpath matching* e *Preserve path suffix*.
-   - Alternativa igualmente gratuita: Rules → Redirect Rules, `https://www.*`
-     → `https://${1}`, 301.
+   duplicado, em vez de redirecionar. **Feito em 13/10/2026.**
+
+   > O painel confirma com um `CNAME @ -> lpteste-davilas.pages.dev`. Checar que
+   > o destino é o **alias de produção**, não a URL com hash do deploy
+   > (`897b403c.lpteste-davilas.pages.dev`): com o hash, o domínio congelaria
+   > naquele deploy e pararia de acompanhar o `main`.
+   >
+   > Um `CNAME` no apex normalmente viola a RFC 1034 (o apex já tem SOA e NS).
+   > Aqui é legal porque a Cloudflare faz **CNAME flattening**: guarda o CNAME
+   > internamente e entrega `A` na borda. É mecanismo padrão dela, não gambiarra.
+6. ~~**www → apex**~~ — **feito em 13/10/2026**, por Redirect Rule (não por Bulk
+   Redirects). Duas partes:
+   - **DNS** → `A` / `www` / `192.0.2.1` / **Proxied**. É um IP reservado para
+     documentação; ninguém o alcança, serve só para a requisição entrar no edge
+     da Cloudflare, que é onde o redirect acontece. Sem **Proxied** não funciona.
+     Depois de criado, o `www` resolve para os IPs do proxy, não para o
+     `192.0.2.1` — é o esperado.
+   - **Rules → Redirect Rules** → `Hostname` *equals* `www.davilasconcept.com.br`
+     → Type **Dynamic**, expressão
+     `concat("https://davilasconcept.com.br", http.request.uri.path)`,
+     status **301**, *Preserve query string* marcado.
+
+   Conferido: raiz, subpágina, asset em subpasta e `?gclid=…&utm_source=…` todos
+   com 301 para o apex preservando path e query — o gclid importa, é o que o
+   Google Ads usa para atribuir a conversão. `http://www` chega ao
+   `https://` do apex em **um** salto.
 7. **SSL/TLS** → modo **Full (strict)**, "Always Use HTTPS" ligado,
-   "Automatic HTTPS Rewrites" ligado, TLS mínimo 1.2.
-   **HSTS**: ligar aqui, em Edge Certificates — a diretiva existe no `_headers`,
-   mas HSTS via `_headers` não é comportamento documentado da Pages.
+   "Automatic HTTPS Rewrites" ligado, TLS mínimo 1.2. ← **próximo passo**
+
+   TLS 1.2 e 1.3 já respondem; 1.0 e 1.1 não deu para testar de fora (o openssl
+   da máquina de trabalho ignora `-tls1`/`-tls1_1` e renegocia para 1.3, o que
+   dá falso "aceita"). Confirmar o mínimo no painel, não por sonda.
+
+   **HSTS**: ligar aqui, em Edge Certificates. A diretiva do `_headers` **está
+   chegando íntegra** no custom domain (conferido em 13/10/2026), apesar de não
+   ser comportamento documentado da Pages — então ligar no painel é
+   cinto-e-suspensório, e é o que torna a submissão ao preload list confiável.
 8. **Religar o DNSSEC, agora pela Cloudflare** — só depois da zona Active, porque
    o Registro.br valida o DS contra a DNSKEY que já tem que estar no ar.
    - Cloudflare → DNS → Settings → **Enable DNSSEC** → copiar **Key tag** e
