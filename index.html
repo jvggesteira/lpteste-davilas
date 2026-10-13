@@ -108,7 +108,7 @@ p{margin:0}
   background:rgba(20,16,13,.95);backdrop-filter:blur(10px);
   border-bottom:1px solid var(--line-dark);color:var(--bone);
 }
-.nav .wrap{display:flex;align-items:center;gap:28px;height:78px}
+.nav .wrap{display:flex;align-items:center;gap:28px;min-height:78px}
 .nav-links{display:flex;gap:28px;margin-left:auto;font-size:15px}
 .nav-links a{text-decoration:none;color:rgba(239,233,224,.8);transition:color .2s}
 .nav-links a:hover{color:var(--bone)}
@@ -288,6 +288,22 @@ footer .legal{max-width:54ch;line-height:1.65}
   .nav-links{display:none}
 }
 @media (max-width:640px){
+  /* Cabeçalho no celular. A tarja tinha altura fixa e o botão do topo não
+     encolhe (white-space:nowrap, 222px — 62% de uma tela de 360px). O
+     logotipo era espremido até o min-content, 118px, e aí o nome E a
+     assinatura quebravam em duas linhas cada: 93px de conteúdo numa faixa
+     de 78px, vazando 7px para dentro do hero.
+     Conserto: botão compacto (só "Agendar"; o WhatsApp flutuante cobre a
+     conversão), lockup com folga, e as duas linhas travadas em nowrap para
+     não quebrarem de novo se o texto mudar. A tarja virou min-height, então
+     mesmo que algo cresça ela acompanha em vez de deixar vazar. */
+  .nav .wrap{gap:14px}
+  .mark b{font-size:clamp(24px,7.2vw,30px)}
+  .mark span{font-size:clamp(7px,2vw,8px);letter-spacing:.18em}
+  .mark b,.mark span{white-space:nowrap}
+  .nav .btn{padding:10px 14px;font-size:12px;letter-spacing:.12em}
+  .btn-wide{display:none}
+
   .mosaic{grid-template-columns:repeat(2,1fr)}
   .mosaic .tall{grid-row:span 1}
   .mosaic .tall img{aspect-ratio:1/1}
@@ -303,6 +319,12 @@ footer .legal{max-width:54ch;line-height:1.65}
   .vtag{top:12px;font-size:9.5px;letter-spacing:.16em;padding:6px 10px}
   .vtag.l{left:10px}
   .vtag.r{right:10px}
+}
+/* Galaxy Fold fechado e afins: abaixo de 340px nao cabem o logotipo inteiro e
+   o botao ao lado, por menor que ele fique. Sai o botao do topo - o WhatsApp
+   flutuante cobre a conversao - e o lockup fica 100% enquadrado na tarja. */
+@media (max-width:340px){
+  .nav .btn{display:none}
 }
 @media (prefers-reduced-motion:no-preference){
   .rise{animation:rise .8s cubic-bezier(.2,.7,.25,1) both}
@@ -332,7 +354,7 @@ footer .mark{color:var(--bone)}
       <a href="#metodo">O método</a>
       <a href="#unidades">Unidades</a>
     </nav>
-    <a class="btn" href="https://wa.me/5568992257126" target="_blank" rel="noopener">Agendar avaliação</a>
+    <a class="btn" href="https://wa.me/5568992257126" target="_blank" rel="noopener">Agendar<span class="btn-wide">&nbsp;avaliação</span></a>
   </div>
 </header>
 
