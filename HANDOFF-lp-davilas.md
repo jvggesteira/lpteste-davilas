@@ -331,12 +331,86 @@ resolvedor público do Google):
       preenchidos. O banner é quem carrega o GTM: nenhuma tag roda antes do
       "Aceitar".
 - [x] `noindex`, tarja de protótipo, preview de WhatsApp, SEO e segurança.
-- [ ] **Compliance CFO.** A Resolução CFO-196/2019 restringe antes/depois em
-      publicidade odontológica. A peça do topo foi enquadrada como *simulação
-      de planejamento*, não como resultado clínico, justamente por isso.
-      Validar com a cliente antes de subir campanha. É também por isso que não
-      existe `VideoObject` no schema: não interessa levar essa peça para a
-      busca de vídeo antes do aval.
+- [ ] **Compliance CFO — a premissa anterior deste documento estava invertida.**
+      Levantamento feito em 13/10/2026 sobre o texto primário (resolução no
+      sistema de atos do CFO + Código de Ética CFO-118/2012). **Nada aqui é
+      parecer jurídico** — é leitura do texto normativo, e o encaminhamento
+      correto está no fim do item.
+
+      O que o documento dizia: "a 196/2019 restringe antes/depois, então a peça
+      do topo foi enquadrada como simulação de planejamento, justamente por
+      isso". **A 196/2019 não proíbe antes/depois — ela autoriza**, sob
+      condições. A ementa é literalmente *"Autoriza a divulgação de autoretratos
+      (selfie) e de imagens relativas ao diagnóstico e ao resultado final de
+      tratamentos odontológicos"*. O Art. 2º permite imagens "relativas ao
+      diagnóstico e à conclusão dos tratamentos" com TCLE prévio.
+
+      A consequência é o oposto do que se supôs: **imagem real de conclusão de
+      tratamento tem porto seguro normativo expresso; simulação não tem.** O
+      Art. 2º cobre "conclusão", e uma projeção pré-procedimento não é conclusão
+      de nada. Pior: exibir ao público leigo um resultado que ainda não existe é
+      o que mais se aproxima da **promessa de resultado**, proibida em texto
+      literal pelo Art. 2º §1º. Ou seja, o enquadramento escolhido como
+      mitigação **aumentou** a exposição em vez de reduzi-la.
+
+      Não há nenhuma norma do CFO sobre simulação digital. Verificado na
+      196/2019, no Capítulo XVI do CEO (arts. 41–49) e na Consolidação das
+      Normas: as palavras "simulação", "projeção" e "mockup" não aparecem em
+      nenhuma. **É lacuna, não permissão** — e quem afirma categoricamente que
+      "simulação é permitida" não tem dispositivo para citar.
+
+      **Três pontos a favor da peça como está**, que vale registrar:
+      - A legenda `Simulação do planejamento digital · não representa garantia
+        de resultado` ataca de frente o risco do Art. 2º §1º — que fala
+        literalmente em "expressões escritas ou faladas". É a melhor defesa
+        disponível e **não pode ser removida** numa futura limpeza de layout.
+      - O Art. 3º proíbe vídeo do "transcurso e/ou realização dos
+        procedimentos". A peça é gravação de tela de software de planejamento,
+        não procedimento sendo executado — não é alcançada.
+      - O TCLE da paciente foi obtido (informado pela cliente em 13/10/2026).
+        É condição **necessária e não suficiente**: o Art. 5º considera infração
+        "de manifesta gravidade" divulgar em desacordo com a norma, mesmo com
+        TCLE assinado. E o art. 44, VI do CEO condiciona a eficácia do
+        consentimento a que a finalidade **não** seja autopromoção.
+
+      **Duas lacunas que não são do vídeo — são de toda a página:**
+      - **Art. 4º, literal:** *"Em todas as publicações de imagens e/ou vídeos
+        deverão constar o nome do profissional e o seu número de inscrição"*.
+        A página traz "Responsável técnica: Dra. Tanira D'avila" no rodapé, mas
+        **não tem número de inscrição no CRO em lugar nenhum** — só `EPAO 0235`,
+        que é registro da clínica, não inscrição de profissional. Isso atinge o
+        vídeo **e as ~10 imagens clínicas** (`ven1`, `ven3`, `implant`,
+        `aligner-sorriso`, `smile2`, `perio`, `ceramic`, `ceramic2`, `bw`), que
+        são todas imagens de conclusão de tratamento. Conserto é trivial assim
+        que a cliente informar o número — ver §8, item do CRO.
+      - **O Art. 4º veda "casos clínicos de autoria de terceiros", e a leitura
+        do CFO e do CROSP é que a publicação cabe ao cirurgião-dentista pessoa
+        física que executou, não a pessoa jurídica.** Esta LP é publicada por
+        T. N. Fontes LTDA. Isso não se resolve com uma linha de HTML e é a
+        questão mais séria das duas.
+
+      **Encaminhamento:** consulta formal por escrito ao **CRO-SP** (os CROs
+      respondem consulta de inscrito). É o único caminho para fechar a lacuna
+      sobre simulação e a questão da pessoa jurídica com resposta que sirva de
+      defesa depois. Fazer **antes** de subir campanha — é o único item
+      pendente capaz de obrigar a refazer a peça principal depois de pronta.
+
+      Segue valendo: **não** existe `VideoObject` no schema, de propósito, para
+      não levar a peça à busca de vídeo antes do aval.
+
+      Fontes primárias:
+      `https://sistemas.cfo.org.br/visualizar/atos/RESOLUÇÃO/SEC/2019/196` ·
+      `https://website.cfo.org.br/wp-content/uploads/2018/03/codigo_etica.pdf` ·
+      `https://website.cfo.org.br/resolucao-cfo-196-2019/` (FAQ oficial) ·
+      `https://crosp.org.br/noticia/fique-em-dia-com-a-publicidade-odontologica-imagens-de-antes-e-depois-podem-ser-permitidas/`
+      A 196/2019 segue vigente e intacta; a CFO-271/2025 alterou o CEO
+      (arts. 32 e 44, XIV — cartões de desconto), não a 196.
+      Ignorar blogs de marketing que afirmam que a 196 "proíbe antes e depois":
+      contradizem o texto literal e o FAQ do próprio CFO.
+- [ ] **Número de inscrição no CRO da Dra. Tanira** (e o estado da inscrição).
+      Exigido pelo Art. 4º da CFO-196/2019 em toda publicação de imagem ou
+      vídeo. Acrescentar junto ao nome dela no rodapé e na tarja `.trust`, que
+      hoje mostra só `Registro · EPAO 0235`.
 - [ ] **Horário de funcionamento.** Ficou fora do schema porque ninguém
       informou. Com ele, o Google exibe "aberto agora" no resultado. Pedir à
       cliente e acrescentar `openingHoursSpecification` nos dois nós `Dentist`.
