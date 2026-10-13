@@ -345,8 +345,16 @@ resolvedor público do Google):
       link usam a foto dela apresentando o planejamento. Confirmar ou trocar.
 - [ ] **Google Business Profile** nas duas unidades, com NAP idêntico ao do
       rodapé. Para busca local isso pesa mais que a landing page inteira.
-- [ ] **Search Console + Bing Webmaster Tools**: verificar o domínio e enviar o
-      sitemap no dia em que o DNS propagar.
+- [x] **Search Console** — propriedade do tipo **Domínio** (cobre apex, `www`,
+      `http` e `https` numa só), verificada em 13/10/2026 pela **integração
+      automática da Cloudflare**: o Google cria o TXT por API, sem ninguém
+      editar registro à mão. Sitemap enviado e indexação da home solicitada.
+      TXT de verificação: `google-site-verification=P_eErCo0Ptvv1kR9u3Ku7KpzWEA68fyFwJcrxkH-hr8`.
+      Conferido depois que ela mexeu na zona: `v=spf1 -all`, null MX `0 .` e
+      `_dmarc p=reject` **todos intactos**, com o TXT novo ao lado.
+- [ ] **Bing Webmaster Tools** — "Importar do Google Search Console" traz
+      propriedade e sitemap sem reconfigurar. Alimenta Copilot e DuckDuckGo, e
+      tem muito menos concorrência em busca local.
 - [ ] **GTM + GA4.** Criar o contêiner, colar o ID na constante `GTM` de
       `js/app.js`, criar a propriedade GA4 e as conversões de clique no
       WhatsApp.
@@ -559,3 +567,20 @@ curl -s "https://lpteste-davilas.vercel.app/index.html?n=$RANDOM" | grep -c "set
 - **O conector da Vercel no Claude** tem escopo apenas de leitura: retorna 403
   em `create_deployment` e `list_deployments`. Por isso o deploy precisa sair
   de um ambiente com git.
+- **Search Console, propriedade de Domínio: o sitemap exige URL completa.** O
+  campo "Adicionar novo sitemap" aceita caminho relativo (`sitemap.xml`) só nas
+  propriedades de *Prefixo do URL*. Na de *Domínio* não há protocolo assumido —
+  ela cobre `http`, `https`, apex e `www` ao mesmo tempo — e caminho relativo é
+  recusado com "endereço de sitemap inválido", que soa como arquivo quebrado e
+  não é. Mandar `https://davilasconcept.com.br/sitemap.xml` inteiro.
+- **"Não foi possível buscar o sitemap" logo após o envio quase nunca é erro.**
+  A pista é o campo **Última leitura em branco**: significa que o Google ainda
+  não tentou, não que tentou e falhou. Em domínio recém-verificado, sem
+  histórico de rastreamento, a busca leva de horas a dois dias. Antes de caçar
+  causa no servidor, use **Inspecionar URL → Testar URL ativo** na URL do
+  sitemap: isso força uma busca ao vivo e mostra o HTTP real que o Google
+  recebe. E **não** reenvie nem apague/readicione o sitemap — apagar zera o
+  histórico e manda você para o fim da fila.
+  Conferido em 13/10/2026, tudo respondendo 200: `HEAD`, `GET` sem User-Agent,
+  `GET` com gzip, `HTTP/1.0`, e as variantes `www` e `http://` com 301 para a
+  URL canônica.
