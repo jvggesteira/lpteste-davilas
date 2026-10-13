@@ -44,15 +44,15 @@ documento dizia antes:
    mesmo tempo** — Google Trust Services no apex, Let's Encrypt no www. É a
    demonstração prática de por que o CAA restrito à Let's Encrypt, que a §7
    mandava criar, teria quebrado a ativação. Ver §7.
-2. **HSTS via `_headers` funciona** no custom domain da Pages (o cabeçalho
-   chega íntegro, com `preload`). A ressalva da §9 passo 7 — "não é
-   comportamento documentado" — segue verdadeira no papel, mas na prática está
-   servindo. Ligar também no painel é cinto-e-suspensório, não requisito.
+2. **HSTS via `_headers` funciona** no custom domain da Pages, ao contrário da
+   ressalva que estava registrada. Mas o HSTS do **painel sobrepõe** o do
+   arquivo: vale `max-age=31536000` (1 ano, teto do seletor da Cloudflare), não
+   os 2 anos que o `_headers` pede. Ainda qualifica para o preload list, cujo
+   piso é exatamente 1 ano. Ver §9 passo 7.
 
-**O que falta:** passo 7 (modo SSL, Always Use HTTPS, TLS mínimo) e passo 8
-(religar o DNSSEC — o `DS` no `.br` está vazio, o Registro.br já retirou a
-chave antiga como previsto). Depois disso, Search Console e as pendências da §8
-que dependem da cliente.
+**O que falta:** só o passo 8 — religar o DNSSEC. O `DS` no `.br` está vazio: o
+Registro.br já retirou a chave antiga, como previsto. Depois disso, Search
+Console e as pendências da §8 que dependem da cliente.
 
 O ambiente da Vercel (`lpteste-davilas.vercel.app`) continua no ar com
 `noindex`, e pode ser desligado quando a cliente validar a produção.
@@ -429,17 +429,26 @@ resolvedor público do Google):
    com 301 para o apex preservando path e query — o gclid importa, é o que o
    Google Ads usa para atribuir a conversão. `http://www` chega ao
    `https://` do apex em **um** salto.
-7. **SSL/TLS** → modo **Full (strict)**, "Always Use HTTPS" ligado,
-   "Automatic HTTPS Rewrites" ligado, TLS mínimo 1.2. ← **próximo passo**
+7. ~~**SSL/TLS**~~ → modo **Full (strict)**, "Always Use HTTPS" ligado,
+   "Automatic HTTPS Rewrites" ligado, TLS mínimo 1.2, HSTS ligado em Edge
+   Certificates com *include subdomains* e *preload*. **Feito em 13/10/2026.**
 
-   TLS 1.2 e 1.3 já respondem; 1.0 e 1.1 não deu para testar de fora (o openssl
-   da máquina de trabalho ignora `-tls1`/`-tls1_1` e renegocia para 1.3, o que
-   dá falso "aceita"). Confirmar o mínimo no painel, não por sonda.
+   TLS 1.2 e 1.3 respondem; 1.0 e 1.1 não dá para testar desta máquina (o
+   openssl local ignora `-tls1`/`-tls1_1` e renegocia para 1.3, o que produz um
+   falso "aceita"). O mínimo vale o que o painel diz, não a sonda.
 
-   **HSTS**: ligar aqui, em Edge Certificates. A diretiva do `_headers` **está
-   chegando íntegra** no custom domain (conferido em 13/10/2026), apesar de não
-   ser comportamento documentado da Pages — então ligar no painel é
-   cinto-e-suspensório, e é o que torna a submissão ao preload list confiável.
+   > **O HSTS do painel sobrepõe o do `_headers`.** O arquivo pede
+   > `max-age=63072000` (2 anos); o que chega hoje é `max-age=31536000` (1 ano),
+   > que é o teto do seletor da Cloudflare. Ganha o painel.
+   >
+   > Não é problema: o piso do hstspreload.org é exatamente 31536000, então o
+   > domínio qualifica. Mas **a linha do `_headers` virou letra morta** — quem
+   > for conferir o `max-age` tem que olhar o painel. Não "conserte" o arquivo
+   > achando que o valor dele está valendo.
+   >
+   > O ganho real de ligar no painel apareceu no teste: o `301` do `www` e o
+   > `404` do edge **agora também levam HSTS**. Essas respostas não passam pelo
+   > `_headers` — antes saíam sem o cabeçalho.
 8. **Religar o DNSSEC, agora pela Cloudflare** — só depois da zona Active, porque
    o Registro.br valida o DS contra a DNSKEY que já tem que estar no ar.
    - Cloudflare → DNS → Settings → **Enable DNSSEC** → copiar **Key tag** e
