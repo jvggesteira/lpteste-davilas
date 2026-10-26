@@ -9,7 +9,7 @@
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Resource-Policy: same-origin
   Permissions-Policy: accelerometer=(), autoplay=(self), camera=(), display-capture=(), encrypted-media=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=(), xr-spatial-tracking=()
-  Content-Security-Policy: default-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com; font-src 'self'; media-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; manifest-src 'self'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; frame-src https://www.googletagmanager.com; object-src 'none'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com; font-src 'self'; media-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; manifest-src 'self'; upgrade-insecure-requests
 
 # style-src usa 'unsafe-inline' porque o CSS é embutido de propósito (render
 # imediato). A página é 100% estática e não tem nenhum campo de entrada, então
@@ -23,6 +23,11 @@
 #   connect-src ... https://www.google.com https://googleads.g.doubleclick.net
 # Não use tags "HTML personalizado" no GTM: elas injetam script inline e a CSP
 # bloqueia. Use os modelos nativos do GTM.
+#
+# GTM-P2L2CTQP já está instalado: o loader vive em /js/gtm.js (externo, porque
+# script-src não tem 'unsafe-inline') e o frame-src acima libera o iframe do
+# <noscript>. Se o contêiner parar de carregar, confira o console por bloqueio
+# de CSP antes de mexer no HTML.
 
 # HTML sempre revalidado: publicação entra no ar sem esperar cache.
 /
