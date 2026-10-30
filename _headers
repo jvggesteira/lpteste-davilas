@@ -9,7 +9,7 @@
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Resource-Policy: same-origin
   Permissions-Policy: accelerometer=(), autoplay=(self), camera=(), display-capture=(), encrypted-media=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=(), xr-spatial-tracking=()
-  Content-Security-Policy: default-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; frame-src https://www.googletagmanager.com; object-src 'none'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com; font-src 'self'; media-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; manifest-src 'self'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; frame-src https://www.googletagmanager.com; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com https://www.facebook.com; font-src 'self'; media-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://www.facebook.com; manifest-src 'self'; upgrade-insecure-requests
 
 # style-src usa 'unsafe-inline' porque o CSS é embutido de propósito (render
 # imediato). A página é 100% estática e não tem nenhum campo de entrada, então
@@ -28,6 +28,14 @@
 # script-src não tem 'unsafe-inline') e o frame-src acima libera o iframe do
 # <noscript>. Se o contêiner parar de carregar, confira o console por bloqueio
 # de CSP antes de mexer no HTML.
+#
+# PIXEL DA META (1746356522402157): os domínios connect.facebook.net (script-src)
+# e www.facebook.com (img-src e connect-src) acima existem para ele. Isso sozinho
+# NÃO faz o pixel funcionar: hoje ele está no contêiner como duas tags "HTML
+# personalizado", que injetam script inline e a CSP bloqueia — foi por isso que a
+# produção ficou com 3 eventos em 28 dias enquanto o ambiente de teste da Vercel,
+# que não tem CSP nenhuma, acumulou 92. Trocar as duas tags pelo modelo nativo
+# "Meta Pixel" do GTM (carrega por src, não inline) é o que fecha o conserto.
 
 # HTML sempre revalidado: publicação entra no ar sem esperar cache.
 /
