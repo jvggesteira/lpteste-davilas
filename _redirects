@@ -21,6 +21,7 @@
 #
 # Se um dia a lista crescer, o conserto estrutural é mover o site para uma
 # subpasta e apontar o build output para ela — aí nada de fora entra por padrão.
-/HANDOFF-lp-davilas.md   /   301
-/vercel.json             /   301
-/.gitignore              /   301
+/HANDOFF-lp-davilas.md          /   301
+/PLANO-frente2-metrificacao.md  /   301
+/vercel.json                    /   301
+/.gitignore                     /   301
