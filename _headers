@@ -30,12 +30,17 @@
 # de CSP antes de mexer no HTML.
 #
 # PIXEL DA META (1746356522402157): os domínios connect.facebook.net (script-src)
-# e www.facebook.com (img-src e connect-src) acima existem para ele. Isso sozinho
-# NÃO faz o pixel funcionar: hoje ele está no contêiner como duas tags "HTML
-# personalizado", que injetam script inline e a CSP bloqueia — foi por isso que a
-# produção ficou com 3 eventos em 28 dias enquanto o ambiente de teste da Vercel,
-# que não tem CSP nenhuma, acumulou 92. Trocar as duas tags pelo modelo nativo
-# "Meta Pixel" do GTM (carrega por src, não inline) é o que fecha o conserto.
+# e www.facebook.com (img-src e connect-src) acima existem para ele e bastam.
+# Verificado em 2026-11-03: o pixel carrega pelo modelo da galeria do GTM e o
+# PageView sai com 200. As duas tags "HTML personalizado" antigas estão pausadas.
+#
+# Evento de conversão faltando aqui NÃO é CSP: a Meta classificou
+# davilasconcept.com.br na categoria de saúde e suprime eventos padrão dentro do
+# navegador, antes de virarem requisição. A lista está em
+# connect.facebook.net/signals/config/1746356522402157?domain=<dominio>, campo
+# restrictedEventNames — em 2026-11-03 era ["Contact","Lead","Schedule"] para o
+# domínio da clínica e [] para qualquer outro. Só trackCustom passa. Confira essa
+# lista e o console ("restricted event ... suppressed") antes de mexer na CSP.
 
 # HTML sempre revalidado: publicação entra no ar sem esperar cache.
 /
