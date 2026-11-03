@@ -339,6 +339,22 @@ footer .mark{color:var(--bone)}
 :focus-visible{outline:2px solid var(--terra-2);outline-offset:3px}
 </style>
 
+<!-- CONFORMIDADE META — ler antes de mexer em medicao nesta pagina.
+     O pixel 1746356522402157 esta sob restricao por categoria de saude: a Meta
+     bloqueia Contact, Lead e Schedule neste dominio e tambem restringe
+     parametros personalizados e partes da URL depois do dominio. Por isso:
+       - nao criar formulario que colete sintoma, queixa, procedimento desejado
+         ou qualquer historico de saude;
+       - nao criar URL, ancora, parametro ou nome de arquivo que nomeie um
+         procedimento. Foi por isso que as imagens viraram caso-N, espaco-N,
+         detalhe-N e sorriso-N;
+         (este comentario tambem segue a regra: e servido ao navegador e lido
+         pelo rastreador, entao nao cita procedimento nenhum);
+       - nao passar texto livre do usuario como parametro de evento;
+       - nome de evento, de conversao e de publico nao pode insinuar condicao
+         ou tratamento (Termos das Ferramentas de Negocios da Meta).
+     Detalhes da restricao e como conferir: ver bloco do pixel em _headers. -->
+
 <!-- Google Tag Manager (loader em js/gtm.js: a CSP bloqueia script inline) -->
 <script src="js/gtm.js"></script>
 <!-- End Google Tag Manager -->
@@ -362,7 +378,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="#metodo">O método</a>
       <a href="#unidades">Unidades</a>
     </nav>
-    <a class="btn" href="https://wa.me/5568992257126?text=Vim%20do%20site%20e%20quero%20agendar%20uma%20avalia%C3%A7%C3%A3o%20com%20a%20Dra.%20Tanira" target="_blank" rel="noopener">Agendar<span class="btn-wide">&nbsp;avaliação</span></a>
+    <a class="btn" href="https://wa.me/5568992257126?text=Vim%20do%20site%20e%20quero%20agendar%20um%20hor%C3%A1rio" target="_blank" rel="noopener">Agendar<span class="btn-wide">&nbsp;avaliação</span></a>
   </div>
 </header>
 
@@ -378,7 +394,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div>
         <p class="lede on-dark">Na D'avila's Concept, cada caso passa por um planejamento digital que cria o avatar do seu sorriso. Você decide com a imagem na tela — não com uma promessa.</p>
         <div class="hero-cta">
-          <a class="btn" href="https://wa.me/5568992257126?text=Vim%20do%20site%20e%20quero%20agendar%20uma%20avalia%C3%A7%C3%A3o%20com%20a%20Dra.%20Tanira" target="_blank" rel="noopener">Agendar avaliação</a>
+          <a class="btn" href="https://wa.me/5568992257126?text=Vim%20do%20site%20e%20quero%20agendar%20um%20hor%C3%A1rio" target="_blank" rel="noopener">Agendar avaliação</a>
           <a class="btn btn-ghost" href="#avatar">Entenda o avatar</a>
         </div>
       </div>
@@ -419,7 +435,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <li>Nada começa na primeira consulta — você decide fora do consultório</li>
       </ul>
     </div>
-    <img src="img/clinic.webp" alt="Avatar do sorriso apresentado em tela na clínica" width="752" height="940" decoding="async">
+    <img src="img/espaco-1.webp" alt="Avatar do sorriso apresentado em tela na clínica" width="752" height="940" decoding="async">
   </div>
 </section>
 
@@ -432,7 +448,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
     <div class="spec">
       <article>
-        <img src="img/perio.webp" alt="Detalhe de gengiva e dentes saudáveis" width="522" height="539" decoding="async" loading="lazy">
+        <img src="img/caso-2.webp" alt="Detalhe de gengiva e dentes saudáveis" width="522" height="539" decoding="async" loading="lazy">
         <div>
           <div class="tag">A base</div>
           <h3>Periodontia</h3>
@@ -440,7 +456,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </article>
       <article>
-        <img src="img/aligner-sorriso.webp" alt="Paciente sorrindo com alinhador transparente na arcada superior" width="900" height="1200" decoding="async" loading="lazy">
+        <img src="img/sorriso-1.webp" alt="Paciente sorrindo com alinhador transparente na arcada superior" width="900" height="1200" decoding="async" loading="lazy">
         <div>
           <div class="tag">A posição</div>
           <h3>Alinhadores invisíveis</h3>
@@ -448,7 +464,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </article>
       <article>
-        <img src="img/implant.webp" alt="Prótese sobre implantes" width="620" height="317" decoding="async" loading="lazy">
+        <img src="img/caso-1.webp" alt="Prótese sobre implantes" width="620" height="317" decoding="async" loading="lazy">
         <div>
           <div class="tag">A estrutura</div>
           <h3>Implantodontia</h3>
@@ -456,7 +472,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </article>
       <article>
-        <img src="img/ceramic.webp" alt="Coroa de cerâmica em detalhe macro" width="620" height="413" decoding="async" loading="lazy">
+        <img src="img/detalhe-1.webp" alt="Coroa de cerâmica em detalhe macro" width="620" height="413" decoding="async" loading="lazy">
         <div>
           <div class="tag">O acabamento</div>
           <h3>Estética &amp; Reabilitação</h3>
@@ -499,9 +515,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
-<section id="clinica">
+<section id="espaco">
   <div class="wrap auth">
-    <img src="img/clinic2.webp" alt="Dra. Tanira D'avila na clínica, durante apresentação de planejamento digital" width="752" height="1002" decoding="async" loading="lazy">
+    <img src="img/espaco-2.webp" alt="Dra. Tanira D'avila na clínica, durante apresentação de planejamento digital" width="752" height="1002" decoding="async" loading="lazy">
     <div>
       <p class="eyebrow">Quem conduz</p>
       <h2>Dra. Tanira D'avila</h2>
@@ -524,12 +540,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h2>O detalhe é o que separa um dente bonito de um sorriso que passa despercebido.</h2>
     </div>
     <div class="mosaic">
-      <figure class="tall"><img src="img/ven1.webp" alt="Sorriso reabilitado em cerâmica" width="700" height="467" decoding="async" loading="lazy"><figcaption>Reabilitação estética</figcaption></figure>
+      <figure class="tall"><img src="img/caso-3.webp" alt="Sorriso reabilitado em cerâmica" width="700" height="467" decoding="async" loading="lazy"><figcaption>Reabilitação estética</figcaption></figure>
       <figure><img src="img/bw.webp" alt="Detalhe de textura e translucidez da cerâmica" width="560" height="461" decoding="async" loading="lazy"><figcaption>Textura</figcaption></figure>
-      <figure><img src="img/ceramic2.webp" alt="Coroa cerâmica sobre pilar" width="560" height="373" decoding="async" loading="lazy"><figcaption>Cerâmica sob medida</figcaption></figure>
-      <figure><img src="img/ven3.webp" alt="Sorriso finalizado em cerâmica" width="560" height="373" decoding="async" loading="lazy"><figcaption>Translucidez</figcaption></figure>
-      <figure><img src="img/clinic3.webp" alt="Planejamento digital em tela na clínica" width="700" height="700" decoding="async" loading="lazy"><figcaption>Avatar em tela</figcaption></figure>
-      <figure><img src="img/aligner-uso.webp" alt="Alinhador transparente em uso, em detalhe" width="900" height="900" decoding="async" loading="lazy"><figcaption>Alinhadores</figcaption></figure>
+      <figure><img src="img/detalhe-2.webp" alt="Coroa cerâmica sobre pilar" width="560" height="373" decoding="async" loading="lazy"><figcaption>Cerâmica sob medida</figcaption></figure>
+      <figure><img src="img/caso-4.webp" alt="Sorriso finalizado em cerâmica" width="560" height="373" decoding="async" loading="lazy"><figcaption>Translucidez</figcaption></figure>
+      <figure><img src="img/espaco-3.webp" alt="Planejamento digital em tela na clínica" width="700" height="700" decoding="async" loading="lazy"><figcaption>Avatar em tela</figcaption></figure>
+      <figure><img src="img/sorriso-2.webp" alt="Alinhador transparente em uso, em detalhe" width="900" height="900" decoding="async" loading="lazy"><figcaption>Alinhadores</figcaption></figure>
       <figure><img src="img/smile2.webp" alt="Paciente sorrindo" width="560" height="373" decoding="async" loading="lazy"><figcaption>Caso concluído</figcaption></figure>
     </div>
     <p class="note">Registros de casos reais conduzidos na clínica. Cada caso tem condições clínicas próprias — o resultado possível é definido em avaliação individual e não pode ser garantido previamente.</p>
@@ -548,14 +564,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="city">Unidade Liberdade</p>
         <address>Rua Galvão Bueno, 412<br>Liberdade · São Paulo · SP · CEP 01506-000<br>A poucos minutos a pé do metrô</address>
         <a class="u-link" href="https://www.google.com/maps/search/?api=1&query=Rua+Galv%C3%A3o+Bueno%2C+412%2C+Liberdade%2C+S%C3%A3o+Paulo%2C+SP" target="_blank" rel="noopener">Ver no mapa</a>
-        <a class="u-link" href="https://wa.me/5568992257126?text=Vim%20do%20site%20e%20quero%20agendar%20uma%20avalia%C3%A7%C3%A3o%20com%20a%20Dra.%20Tanira" target="_blank" rel="noopener">Agendar em São Paulo</a>
+        <a class="u-link" href="https://wa.me/5568992257126?text=Vim%20do%20site%20e%20quero%20agendar%20um%20hor%C3%A1rio" target="_blank" rel="noopener">Agendar em São Paulo</a>
       </div>
       <div class="unit">
         <p class="uf">Rio Branco — AC</p>
         <p class="city">Unidade Cerâmica</p>
         <address>Travessa Rio Branco, 684 — sala 02<br>Bairro Cerâmica · Rio Branco · AC</address>
         <a class="u-link" href="https://www.google.com/maps/search/?api=1&query=Travessa+Rio+Branco%2C+684%2C+Cer%C3%A2mica%2C+Rio+Branco%2C+AC" target="_blank" rel="noopener">Ver no mapa</a>
-        <a class="u-link" href="https://wa.me/5568992257126?text=Vim%20do%20site%20e%20quero%20agendar%20uma%20avalia%C3%A7%C3%A3o%20com%20a%20Dra.%20Tanira" target="_blank" rel="noopener">Agendar em Rio Branco</a>
+        <a class="u-link" href="https://wa.me/5568992257126?text=Vim%20do%20site%20e%20quero%20agendar%20um%20hor%C3%A1rio" target="_blank" rel="noopener">Agendar em Rio Branco</a>
       </div>
     </div>
   </div>
@@ -597,7 +613,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="eyebrow on-dark">Próximo passo</p>
     <h2>Comece pela avaliação.</h2>
     <p class="lede on-dark">Agende pelo WhatsApp e escolha a unidade. Respondemos em horário comercial.</p>
-    <a class="btn" href="https://wa.me/5568992257126?text=Vim%20do%20site%20e%20quero%20agendar%20uma%20avalia%C3%A7%C3%A3o%20com%20a%20Dra.%20Tanira" target="_blank" rel="noopener">Falar com a clínica</a>
+    <a class="btn" href="https://wa.me/5568992257126?text=Vim%20do%20site%20e%20quero%20agendar%20um%20hor%C3%A1rio" target="_blank" rel="noopener">Falar com a clínica</a>
   </div>
 </section>
 
@@ -609,7 +625,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="legal">T. N. Fontes LTDA · CNPJ 43.104.780/0001-22 · Registro EPAO 0235 · Responsável técnica: Dra. Tanira D'avila<br>
     Rua Galvão Bueno, 412 — Liberdade, São Paulo/SP · Travessa Rio Branco, 684 sala 02 — Cerâmica, Rio Branco/AC<br>
     Atendimento exclusivamente particular. As informações desta página têm caráter informativo e não substituem a avaliação clínica presencial.<br>
-    <a href="https://wa.me/5568992257126?text=Vim%20do%20site%20e%20quero%20agendar%20uma%20avalia%C3%A7%C3%A3o%20com%20a%20Dra.%20Tanira" target="_blank" rel="noopener">WhatsApp (68) 99225-7126</a> · <a href="https://www.instagram.com/davilasconcept/" target="_blank" rel="noopener">@davilasconcept</a> · <a href="/privacidade">Política de Privacidade</a></p>
+    <a href="https://wa.me/5568992257126?text=Vim%20do%20site%20e%20quero%20agendar%20um%20hor%C3%A1rio" target="_blank" rel="noopener">WhatsApp (68) 99225-7126</a> · <a href="https://www.instagram.com/davilasconcept/" target="_blank" rel="noopener">@davilasconcept</a> · <a href="/privacidade">Política de Privacidade</a></p>
   </div>
 </footer>
 
@@ -621,7 +637,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<a class="wa-float" href="https://wa.me/5568992257126?text=Vim%20do%20site%20e%20quero%20agendar%20uma%20avalia%C3%A7%C3%A3o%20com%20a%20Dra.%20Tanira" target="_blank" rel="noopener"
+<a class="wa-float" href="https://wa.me/5568992257126?text=Vim%20do%20site%20e%20quero%20agendar%20um%20hor%C3%A1rio" target="_blank" rel="noopener"
    aria-label="Falar com a clínica no WhatsApp" title="Falar no WhatsApp">
   <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.49-.9-.8-1.5-1.79-1.67-2.09-.17-.3-.02-.47.13-.62.15-.15.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.92-2.19-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.46 0 1.45 1.06 2.86 1.21 3.06.15.2 2.09 3.19 5.06 4.47.71.3 1.26.48 1.69.62.72.23 1.37.2 1.89.12.58-.09 1.78-.73 2.03-1.43.25-.7.25-1.31.17-1.43-.07-.12-.27-.2-.57-.35M12.04 21.5h-.01c-1.73 0-3.43-.47-4.92-1.35l-.35-.21-3.66.96.98-3.57-.23-.37a9.4 9.4 0 0 1-1.44-5.01c0-5.2 4.24-9.43 9.45-9.43 2.52 0 4.89.98 6.67 2.77a9.37 9.37 0 0 1 2.76 6.67c0 5.2-4.24 9.44-9.45 9.44m8.04-17.48A11.35 11.35 0 0 0 12.04.5C5.78.5.69 5.58.69 11.83c0 2 .52 3.95 1.52 5.67L.6 23.5l6.14-1.61a11.33 11.33 0 0 0 5.3 1.35h.01c6.25 0 11.34-5.08 11.34-11.33 0-3.03-1.18-5.87-3.31-8.01"/></svg>
 </a>
@@ -678,7 +694,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       "name": "Tanira D'avila",
       "honorificPrefix": "Dra.",
       "jobTitle": "Cirurgiã-dentista",
-      "image": "https://davilasconcept.com.br/img/clinic2.webp",
+      "image": "https://davilasconcept.com.br/img/espaco-2.webp",
       "worksFor": { "@id": "https://davilasconcept.com.br/#organizacao" },
       "knowsAbout": [
         "Periodontia",
