@@ -9,18 +9,17 @@
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Resource-Policy: same-origin
   Permissions-Policy: accelerometer=(), autoplay=(self), camera=(), display-capture=(), encrypted-media=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=(), xr-spatial-tracking=()
-  Content-Security-Policy: default-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; frame-src https://www.googletagmanager.com; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com https://www.facebook.com; font-src 'self'; media-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://www.facebook.com; manifest-src 'self'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; frame-src https://www.googletagmanager.com; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.googleadservices.com https://www.google.com https://connect.facebook.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com https://www.google.com https://www.google.com.br https://www.facebook.com; font-src 'self'; media-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com https://www.google.com https://www.google.com.br https://ad.doubleclick.net https://www.facebook.com; manifest-src 'self'; upgrade-insecure-requests
 
 # style-src usa 'unsafe-inline' porque o CSS é embutido de propósito (render
 # imediato). A página é 100% estática e não tem nenhum campo de entrada, então
 # não há superfície de injeção — a CSP aqui é defesa em profundidade.
 #
-# AO LIGAR O GOOGLE ADS: a tag de conversão precisa dos domínios abaixo.
-# Acrescente-os às diretivas correspondentes na linha acima, senão a conversão
-# falha em silêncio:
-#   script-src  ... https://www.googleadservices.com https://googleads.g.doubleclick.net
-#   img-src     ... https://www.google.com https://www.google.com.br https://googleads.g.doubleclick.net
-#   connect-src ... https://www.google.com https://googleads.g.doubleclick.net
+# GOOGLE ADS (tag do Google AW-370481579, via GTM, 2026-11-11): os domínios
+# googleadservices, googleads.g.doubleclick.net, pagead2.googlesyndication,
+# www.google.com(.br) e ad.doubleclick.net acima existem para ela. Lista oficial:
+# developers.google.com/tag-platform/security/guides/csp (seção Google Ads).
+# Sem eles a conversão falha em silêncio.
 # Não use tags "HTML personalizado" no GTM: elas injetam script inline e a CSP
 # bloqueia. Use os modelos nativos do GTM.
 #
